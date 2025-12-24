@@ -1,0 +1,2989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompTIA A+ 220-1201 Study App</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1c1c1e;
+            --bg-tertiary: #2c2c2e;
+            --bg-quaternary: #3a3a3c;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1a6;
+            --text-tertiary: #8a8a8e;
+            --accent-blue: #0a84ff;
+            --accent-green: #30d158;
+            --accent-orange: #ff9f0a;
+            --accent-red: #ff453a;
+            --accent-purple: #bf5af2;
+            --accent-yellow: #ffd60a;
+            --border-color: #38383a;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 16px;
+            padding-bottom: 100px;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--bg-secondary);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 12px 0;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .btn-icon:hover {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        /* Navigation */
+        .nav-bar {
+            background-color: var(--bg-secondary);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border-color);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+        }
+
+        .nav-items {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 4px 12px;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: var(--transition);
+            text-decoration: none;
+            color: var(--text-secondary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-blue);
+            background-color: rgba(10, 132, 255, 0.1);
+        }
+
+        .nav-item:hover {
+            background-color: var(--bg-tertiary);
+        }
+
+        .nav-icon {
+            font-size: 24px;
+            margin-bottom: 2px;
+        }
+
+        .nav-label {
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 20px 0;
+            min-height: calc(100vh - 120px);
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Cards */
+        .card {
+            background-color: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--shadow-color);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .card-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* Progress Bars */
+        .progress-container {
+            margin: 12px 0;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            background-color: var(--bg-tertiary);
+            border-radius: 6px;
+            height: 8px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-fill.blue { background-color: var(--accent-blue); }
+        .progress-fill.green { background-color: var(--accent-green); }
+        .progress-fill.orange { background-color: var(--accent-orange); }
+        .progress-fill.red { background-color: var(--accent-red); }
+        .progress-fill.purple { background-color: var(--accent-purple); }
+
+        /* Buttons */
+        .btn {
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background-color: #0077e6;
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--bg-quaternary);
+        }
+
+        .btn-success {
+            background-color: var(--accent-green);
+        }
+
+        .btn-success:hover {
+            background-color: #28a745;
+        }
+
+        .btn-danger {
+            background-color: var(--accent-red);
+        }
+
+        .btn-danger:hover {
+            background-color: #e63946;
+        }
+
+        .btn-lg {
+            padding: 16px 32px;
+            font-size: 18px;
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background-color: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Module Cards */
+        .module-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .module-card {
+            background-color: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .module-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--shadow-color);
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .module-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .module-percentage {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+
+        .module-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        /* Question Styles */
+        .question-container {
+            background-color: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .question-counter {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .question-text {
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .answer-options {
+            space-y: 12px;
+        }
+
+        .answer-option {
+            background-color: var(--bg-tertiary);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .answer-option:hover {
+            border-color: var(--accent-blue);
+            background-color: var(--bg-quaternary);
+        }
+
+        .answer-option.selected {
+            border-color: var(--accent-blue);
+            background-color: rgba(10, 132, 255, 0.1);
+        }
+
+        .answer-option.correct {
+            border-color: var(--accent-green);
+            background-color: rgba(48, 209, 88, 0.1);
+        }
+
+        .answer-option.incorrect {
+            border-color: var(--accent-red);
+            background-color: rgba(255, 69, 58, 0.1);
+        }
+
+        .answer-letter {
+            font-weight: 700;
+            color: var(--accent-blue);
+            min-width: 24px;
+        }
+
+        .answer-text {
+            flex: 1;
+        }
+
+        /* Explanation */
+        .explanation {
+            background-color: var(--bg-tertiary);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .explanation-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--accent-blue);
+        }
+
+        .explanation-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        /* Timer */
+        .timer {
+            background-color: var(--bg-tertiary);
+            border-radius: 12px;
+            padding: 12px 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .timer.warning {
+            color: var(--accent-orange);
+        }
+
+        .timer.danger {
+            color: var(--accent-red);
+        }
+
+        /* Port Table */
+        .port-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        .port-table th,
+        .port-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .port-table th {
+            background-color: var(--bg-tertiary);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .port-table tr:hover {
+            background-color: var(--bg-tertiary);
+        }
+
+        /* Settings */
+        .setting-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info {
+            flex: 1;
+        }
+
+        .setting-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .setting-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Toggle Switch */
+        .toggle {
+            position: relative;
+            width: 50px;
+            height: 30px;
+            background-color: var(--bg-quaternary);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .toggle.active {
+            background-color: var(--accent-blue);
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background-color: white;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .toggle.active .toggle-slider {
+            transform: translateX(20px);
+        }
+
+        /* Select */
+        .select {
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+
+        /* Exam Results */
+        .results-container {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .results-score {
+            font-size: 72px;
+            font-weight: 800;
+            color: var(--accent-blue);
+            margin-bottom: 8px;
+        }
+
+        .results-percentage {
+            font-size: 24px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .results-breakdown {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .breakdown-item {
+            background-color: var(--bg-tertiary);
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .breakdown-value {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .breakdown-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Search */
+        .search-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 16px 12px 44px;
+            color: var(--text-primary);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            background-color: var(--bg-tertiary);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .filter-tab {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .filter-tab.active {
+            background-color: var(--accent-blue);
+            border-color: var(--accent-blue);
+            color: white;
+        }
+
+        /* Quiz Mode */
+        .quiz-mode-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .quiz-mode-card {
+            background-color: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quiz-mode-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        .quiz-mode-card.selected {
+            border-color: var(--accent-blue);
+            background-color: rgba(10, 132, 255, 0.1);
+        }
+
+        .quiz-mode-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .quiz-mode-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .quiz-mode-description {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--bg-tertiary);
+            border-top: 3px solid var(--accent-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 16px;
+            right: 16px;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--accent-green);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--accent-red);
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 768px;
+                padding: 0 24px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .module-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .results-breakdown {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .quiz-mode-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 1024px;
+            }
+
+            .module-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus styles */
+        .btn:focus,
+        .answer-option:focus,
+        .nav-item:focus,
+        .module-card:focus,
+        .card:focus {
+            outline: 2px solid var(--accent-blue);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">A+ Study</div>
+            <div class="header-actions">
+                <button class="btn-icon" onclick="showSettings()" title="Settings">⚙️</button>
+                <button class="btn-icon" onclick="showAbout()" title="About">ℹ️</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <h1 style="font-size: 28px; font-weight: 700; margin-bottom: 24px;">Dashboard</h1>
+                
+                <!-- Overall Progress -->
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">Overall Progress</div>
+                            <div class="card-subtitle">Your study journey so far</div>
+                        </div>
+                        <div class="stat-value" id="overallProgress">0%</div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill blue" id="overallProgressBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalQuestions">0</div>
+                        <div class="stat-label">Questions Answered</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="correctAnswers">0</div>
+                        <div class="stat-label">Correct Answers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="bestScore">0%</div>
+                        <div class="stat-label">Best Exam Score</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="studyStreak">0</div>
+                        <div class="stat-label">Study Streak</div>
+                    </div>
+                </div>
+
+                <!-- Module Progress -->
+                <div class="card">
+                    <div class="card-title" style="margin-bottom: 16px;">Module Progress</div>
+                    <div id="moduleProgress">
+                        <!-- Module progress will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="card">
+                    <div class="card-title" style="margin-bottom: 16px;">Quick Actions</div>
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 12px;">
+                        <button class="btn btn-block" onclick="resumeLastActivity()">
+                            📖 Resume Last Activity
+                        </button>
+                        <button class="btn btn-secondary btn-block" onclick="startPracticeExam()">
+                            📝 Take Practice Exam
+                        </button>
+                        <button class="btn btn-secondary btn-block" onclick="showSection('modules')">
+                            📚 Study Modules
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Modules Section -->
+            <section id="modules" class="section">
+                <h1 style="font-size: 28px; font-weight: 700; margin-bottom: 24px;">Study Modules</h1>
+                
+                <div class="module-grid" id="moduleGrid">
+                    <!-- Modules will be populated here -->
+                </div>
+            </section>
+
+            <!-- Module Quiz Section -->
+            <section id="moduleQuiz" class="section">
+                <div class="question-header">
+                    <div class="question-counter">
+                        <span id="currentQuestion">1</span> of <span id="totalQuizQuestions">50</span>
+                    </div>
+                    <div class="timer" id="quizTimer">
+                        ⏱️ <span id="timerDisplay">--:--</span>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question-text" id="questionText">
+                        <!-- Question will be populated here -->
+                    </div>
+                    
+                    <div class="answer-options" id="answerOptions">
+                        <!-- Answer options will be populated here -->
+                    </div>
+
+                    <div id="questionExplanation" class="explanation" style="display: none;">
+                        <div class="explanation-title">Explanation</div>
+                        <div class="explanation-text" id="explanationText"></div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 12px; margin-top: 20px;">
+                    <button class="btn" id="submitAnswerBtn" onclick="submitAnswer()">Submit Answer</button>
+                    <button class="btn btn-secondary" id="nextQuestionBtn" onclick="nextQuestion()" style="display: none;">Next Question</button>
+                    <button class="btn btn-danger" onclick="exitQuiz()">Exit Quiz</button>
+                </div>
+            </section>
+
+            <!-- Ports Section -->
+            <section id="ports" class="section">
+                <h1 style="font-size: 28px; font-weight: 700; margin-bottom: 24px;">Port Reference</h1>
+                
+                <div class="search-container">
+                    <div class="search-icon">🔍</div>
+                    <input type="text" class="search-input" placeholder="Search ports..." id="portSearch" oninput="filterPorts()">
+                </div>
+
+                <div class="filter-tabs" id="portFilterTabs">
+                    <div class="filter-tab active" onclick="filterPortCategory(event, 'all')">All</div>
+                    <div class="filter-tab" onclick="filterPortCategory(event, 'tcp')">TCP</div>
+                    <div class="filter-tab" onclick="filterPortCategory(event, 'udp')">UDP</div>
+                    <div class="filter-tab" onclick="filterPortCategory(event, 'common')">Common</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Port Reference Table</div>
+                        <button class="btn" onclick="startPortQuiz()">Start Port Quiz</button>
+                    </div>
+                    
+                    <div style="overflow-x: auto;">
+                        <table class="port-table" id="portTable">
+                            <thead>
+                                <tr>
+                                    <th>Port</th>
+                                    <th>Protocol</th>
+                                    <th>Service</th>
+                                    <th>Full Name</th>
+                                    <th>Primary Use</th>
+                                </tr>
+                            </thead>
+                            <tbody id="portTableBody">
+                                <!-- Port data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Port Quiz Section -->
+            <section id="portQuiz" class="section">
+                <div class="quiz-mode-container" id="portQuizModes">
+                    <div class="quiz-mode-card" onclick="selectPortQuizMode(event, 'port-to-service')">
+                        <div class="quiz-mode-icon">🔢</div>
+                        <div class="quiz-mode-title">Port to Service</div>
+                        <div class="quiz-mode-description">Given a port number, identify the service</div>
+                    </div>
+                    <div class="quiz-mode-card" onclick="selectPortQuizMode(event, 'service-to-port')">
+                        <div class="quiz-mode-icon">🏷️</div>
+                        <div class="quiz-mode-title">Service to Port</div>
+                        <div class="quiz-mode-description">Given a service name, identify the port</div>
+                    </div>
+                    <div class="quiz-mode-card" onclick="selectPortQuizMode(event, 'mixed')">
+                        <div class="quiz-mode-icon">🔄</div>
+                        <div class="quiz-mode-title">Mixed Mode</div>
+                        <div class="quiz-mode-description">Random mix of both quiz types</div>
+                    </div>
+                </div>
+
+                <div class="question-container" id="portQuestionContainer" style="display: none;">
+                    <div class="question-header">
+                        <div class="question-counter">
+                            <span id="currentPortQuestion">1</span> of <span id="totalPortQuestions">20</span>
+                        </div>
+                    </div>
+                    
+                    <div class="question-text" id="portQuestionText">
+                        <!-- Port question will be populated here -->
+                    </div>
+                    
+                    <div class="answer-options" id="portAnswerOptions">
+                        <!-- Port answer options will be populated here -->
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 12px; margin-top: 20px;" id="portQuizActions">
+                    <button class="btn" id="submitPortAnswerBtn" onclick="submitPortAnswer()">Submit Answer</button>
+                    <button class="btn btn-secondary" id="nextPortQuestionBtn" onclick="nextPortQuestion()" style="display: none;">Next</button>
+                    <button class="btn btn-danger" onclick="exitPortQuiz()">Exit Quiz</button>
+                </div>
+            </section>
+
+            <!-- Practice Exam Section -->
+            <section id="practiceExam" class="section">
+                <h1 style="font-size: 28px; font-weight: 700; margin-bottom: 24px;">Practice Exam</h1>
+                
+                <div class="card">
+                    <div class="card-title" style="margin-bottom: 16px;">Exam Settings</div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-title">Timer</div>
+                                <div class="setting-description">90 minutes for full exam</div>
+                            </div>
+                            <div class="toggle" id="examTimerToggle" onclick="toggleExamTimer()">
+                                <div class="toggle-slider"></div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-title">Domain Weighting</div>
+                                <div class="setting-description">Match official exam distribution</div>
+                            </div>
+                            <div class="toggle active" id="domainWeightingToggle" onclick="toggleDomainWeighting()">
+                                <div class="toggle-slider"></div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <button class="btn btn-lg btn-block" onclick="startPracticeExam()" style="margin-top: 20px;">
+                        Start Practice Exam
+                    </button>
+                </div>
+
+                <!-- Exam Results -->
+                <div class="card" id="lastExamResults" style="display: none;">
+                    <div class="card-title">Last Exam Results</div>
+                    <div class="results-container">
+                        <div class="results-score" id="lastExamScore">0%</div>
+                        <div class="results-percentage" id="lastExamCorrect">0/90 Correct</div>
+                        
+                        <div class="results-breakdown" id="domainBreakdown">
+                            <!-- Domain breakdown will be populated here -->
+                        </div>
+                        
+                        <button class="btn" onclick="reviewLastExam()">Review Answers</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Exam Mode Section -->
+            <section id="examMode" class="section">
+                <div class="question-header">
+                    <div class="question-counter">
+                        Question <span id="currentExamQuestion">1</span> of <span id="totalExamQuestions">90</span>
+                    </div>
+                    <div class="timer" id="examTimer">
+                        ⏱️ <span id="examTimerDisplay">90:00</span>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question-text" id="examQuestionText">
+                        <!-- Exam question will be populated here -->
+                    </div>
+                    
+                    <div class="answer-options" id="examAnswerOptions">
+                        <!-- Exam answer options will be populated here -->
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 12px; margin-top: 20px;">
+                    <button class="btn" id="submitExamAnswerBtn" onclick="submitExamAnswer()">Submit Answer</button>
+                    <button class="btn btn-secondary" id="nextExamQuestionBtn" onclick="nextExamQuestion()" style="display: none;">Next Question</button>
+                    <button class="btn btn-danger" onclick="exitExam()">Exit Exam</button>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings" class="section">
+                <h1 style="font-size: 28px; font-weight: 700; margin-bottom: 24px;">Settings</h1>
+                
+                <div class="card">
+                    <div class="card-title" style="margin-bottom: 16px;">Feedback</div>
+                    
+                    <label class="setting-item">
+                        <div class="setting-info">
+                            <div class="setting-title">Sound Feedback</div>
+                            <div class="setting-description">Play sounds for correct/incorrect answers</div>
+                        </div>
+                        <div class="toggle active" id="soundToggle" onclick="toggleSetting('sound')">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </label>
+
+                    <label class="setting-item">
+                        <div class="setting-info">
+                            <div class="setting-title">Vibration Feedback</div>
+                            <div class="setting-description">Vibrate on mobile for feedback</div>
+                        </div>
+                        <div class="toggle active" id="vibrationToggle" onclick="toggleSetting('vibration')">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" style="margin-bottom: 16px;">Quiz Options</div>
+                    
+                    <label class="setting-item">
+                        <div class="setting-info">
+                            <div class="setting-title">Instant Feedback</div>
+                            <div class="setting-description">Show answer immediately after selection</div>
+                        </div>
+                        <div class="toggle active" id="instantFeedbackToggle" onclick="toggleSetting('instantFeedback')">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </label>
+
+                    <label class="setting-item">
+                        <div class="setting-info">
+                            <div class="setting-title">Auto Advance</div>
+                            <div class="setting-description">Automatically move to next question</div>
+                        </div>
+                        <div class="toggle" id="autoAdvanceToggle" onclick="toggleSetting('autoAdvance')">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </label>
+
+                    <label class="setting-item">
+                        <div class="setting-info">
+                            <div class="setting-title">Shuffle Questions</div>
+                            <div class="setting-description">Randomize question order</div>
+                        </div>
+                        <div class="toggle active" id="shuffleQuestionsToggle" onclick="toggleSetting('shuffleQuestions')">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </label>
+
+                    <label class="setting-item">
+                        <div class="setting-info">
+                            <div class="setting-title">Shuffle Answers</div>
+                            <div class="setting-description">Randomize answer order</div>
+                        </div>
+                        <div class="toggle active" id="shuffleAnswersToggle" onclick="toggleSetting('shuffleAnswers')">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </label>
+
+                    <label class="setting-item">
+                        <div class="setting-info">
+                            <div class="setting-title">Show Acronyms</div>
+                            <div class="setting-description">Expand acronyms with full names</div>
+                        </div>
+                        <div class="toggle active" id="showAcronymsToggle" onclick="toggleSetting('showAcronyms')">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" style="margin-bottom: 16px;">Difficulty</div>
+                    
+                    <label class="setting-item">
+                        <div class="setting-info">
+                            <div class="setting-title">Default Difficulty</div>
+                            <div class="setting-description">Set default question difficulty</div>
+                        </div>
+                        <select class="select" id="difficultySelect" onchange="changeDifficulty()">
+                            <option value="easy">Easy</option>
+                            <option value="exam" selected>Exam Level</option>
+                            <option value="mixed">Mixed</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" style="margin-bottom: 16px;">Data</div>
+                    
+                    <button class="btn btn-danger btn-block" onclick="resetProgress()" style="margin-bottom: 12px;">
+                        Reset All Progress
+                    </button>
+                    
+                    <button class="btn btn-secondary btn-block" onclick="exportData()">
+                        Export Study Data
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <div class="nav-items">
+            <a href="#" class="nav-item active" onclick="showSection('dashboard')">
+                <div class="nav-icon">🏠</div>
+                <div class="nav-label">Dashboard</div>
+            </a>
+            <a href="#" class="nav-item" onclick="showSection('modules')">
+                <div class="nav-icon">📚</div>
+                <div class="nav-label">Modules</div>
+            </a>
+            <a href="#" class="nav-item" onclick="showSection('ports')">
+                <div class="nav-icon">🔌</div>
+                <div class="nav-label">Ports</div>
+            </a>
+            <a href="#" class="nav-item" onclick="showSection('practiceExam')">
+                <div class="nav-icon">📝</div>
+                <div class="nav-label">Exam</div>
+            </a>
+            <a href="#" class="nav-item" onclick="showSection('settings')">
+                <div class="nav-icon">⚙️</div>
+                <div class="nav-label">Settings</div>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div id="toastMessage"></div>
+    </div>
+
+    <script>
+        // Application State
+        const AppState = {
+            currentSection: 'dashboard',
+            currentQuiz: null,
+            currentQuestionIndex: 0,
+            quizAnswers: [],
+            quizScore: 0,
+            examTimer: null,
+            examTimeRemaining: 5400, // 90 minutes in seconds
+            settings: {
+                sound: true,
+                vibration: true,
+                instantFeedback: true,
+                autoAdvance: false,
+                shuffleQuestions: true,
+                shuffleAnswers: true,
+                showAcronyms: true,
+                difficulty: 'exam',
+                examTimer: false,
+                domainWeighting: true
+            },
+            statistics: {
+                totalQuestions: 0,
+                correctAnswers: 0,
+                bestScore: 0,
+                studyStreak: 0,
+                moduleProgress: {},
+                lastExamResult: null
+            }
+        };
+
+        // Module Definitions
+        const MODULES = [
+            {
+                id: 'mobile-devices',
+                title: 'Domain 1.0 - Mobile Devices',
+                description: 'Laptop hardware, mobile device connectivity, networking, and management',
+                percentage: 13,
+                color: 'blue',
+                questions: []
+            },
+            {
+                id: 'networking',
+                title: 'Domain 2.0 - Networking',
+                description: 'Network protocols, services, IP addressing, and connection types',
+                percentage: 23,
+                color: 'green',
+                questions: []
+            },
+            {
+                id: 'hardware',
+                title: 'Domain 3.0 - Hardware',
+                description: 'Display types, cables, memory, storage, motherboards, and power',
+                percentage: 25,
+                color: 'orange',
+                questions: []
+            },
+            {
+                id: 'virtualization',
+                title: 'Domain 4.0 - Virtualization & Cloud',
+                description: 'Virtualization concepts, cloud models, and services',
+                percentage: 11,
+                color: 'purple',
+                questions: []
+            },
+            {
+                id: 'troubleshooting',
+                title: 'Domain 5.0 - Troubleshooting',
+                description: 'Hardware, storage, display, mobile, network, and printer troubleshooting',
+                percentage: 28,
+                color: 'red',
+                questions: []
+            }
+        ];
+
+        // Port Data
+        const PORT_DATA = [
+            { port: 20, protocol: 'TCP', service: 'FTP', fullName: 'File Transfer Protocol (Data)', use: 'Active mode FTP data transfer' },
+            { port: 21, protocol: 'TCP', service: 'FTP', fullName: 'File Transfer Protocol (Control)', use: 'FTP control/commands' },
+            { port: 22, protocol: 'TCP', service: 'SSH', fullName: 'Secure Shell', use: 'Encrypted remote administration' },
+            { port: 23, protocol: 'TCP', service: 'Telnet', fullName: 'Telecommunication Network', use: 'Unencrypted remote access (deprecated)' },
+            { port: 25, protocol: 'TCP', service: 'SMTP', fullName: 'Simple Mail Transfer Protocol', use: 'Sending email between servers' },
+            { port: 53, protocol: 'UDP/TCP', service: 'DNS', fullName: 'Domain Name System', use: 'Hostname to IP resolution' },
+            { port: 67, protocol: 'UDP', service: 'DHCP', fullName: 'Dynamic Host Configuration Protocol (Server)', use: 'Automatic IP assignment to clients' },
+            { port: 68, protocol: 'UDP', service: 'DHCP', fullName: 'Dynamic Host Configuration Protocol (Client)', use: 'DHCP client requests' },
+            { port: 80, protocol: 'TCP', service: 'HTTP', fullName: 'Hypertext Transfer Protocol', use: 'Unencrypted web traffic' },
+            { port: 110, protocol: 'TCP', service: 'POP3', fullName: 'Post Office Protocol v3', use: 'Retrieving email from server' },
+            { port: 143, protocol: 'TCP', service: 'IMAP', fullName: 'Internet Message Access Protocol', use: 'Email retrieval with server sync' },
+            { port: 443, protocol: 'TCP', service: 'HTTPS', fullName: 'HTTP Secure', use: 'Encrypted web traffic (SSL/TLS)' },
+            { port: 993, protocol: 'TCP', service: 'IMAPS', fullName: 'IMAP Secure', use: 'Encrypted IMAP with SSL/TLS' },
+            { port: 995, protocol: 'TCP', service: 'POP3S', fullName: 'POP3 Secure', use: 'Encrypted POP3 with SSL/TLS' },
+            { port: 3389, protocol: 'TCP', service: 'RDP', fullName: 'Remote Desktop Protocol', use: 'Windows remote desktop access' },
+            { port: 137, protocol: 'UDP', service: 'NetBIOS', fullName: 'NetBIOS Name Service', use: 'Windows network name resolution' },
+            { port: 138, protocol: 'UDP', service: 'NetBIOS', fullName: 'NetBIOS Datagram Service', use: 'Windows network datagrams' },
+            { port: 139, protocol: 'TCP', service: 'NetBIOS', fullName: 'NetBIOS Session Service', use: 'Windows file/print sharing' },
+            { port: 445, protocol: 'TCP', service: 'SMB', fullName: 'Server Message Block', use: 'Direct Windows file sharing' },
+            { port: 389, protocol: 'TCP/UDP', service: 'LDAP', fullName: 'Lightweight Directory Access Protocol', use: 'Directory services authentication' },
+            { port: 636, protocol: 'TCP/UDP', service: 'LDAPS', fullName: 'LDAP Secure', use: 'Encrypted LDAP with SSL/TLS' },
+            { port: 123, protocol: 'UDP', service: 'NTP', fullName: 'Network Time Protocol', use: 'Time synchronization' },
+            { port: 161, protocol: 'UDP', service: 'SNMP', fullName: 'Simple Network Management Protocol', use: 'Network device monitoring' },
+            { port: 162, protocol: 'UDP', service: 'SNMP Trap', fullName: 'SNMP Trap', use: 'SNMP alert notifications' }
+        ];
+
+        // Question Bank - Generated from PDF content
+        const QUESTION_BANK = {
+            'mobile-devices': [
+                {
+                    question: "Which type of battery technology is commonly used in modern laptops and does NOT suffer from memory effect?",
+                    options: [
+                        "Nickel-Cadmium (NiCd)",
+                        "Nickel-Metal Hydride (NiMH)",
+                        "Lithium-Ion (Li-ion)",
+                        "Lead-Acid"
+                    ],
+                    correct: 2,
+                    explanation: "Lithium-Ion (Li-ion) and Lithium-Ion polymer (LiPo) batteries are commonly used in modern laptops and mobile devices. They do not have a memory effect, meaning charging the battery does not diminish its capacity over time.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "What is the standard form factor for laptop memory modules?",
+                    options: [
+                        "DIMM",
+                        "SO-DIMM",
+                        "SIMM",
+                        "RIMM"
+                    ],
+                    correct: 1,
+                    explanation: "SO-DIMM (Small Outline Dual In-line Memory Module) is the standard form factor for laptop memory. It's about half the width of a standard DIMM used in desktop computers.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Which wireless technology has an effective range of approximately 4 centimeters or less?",
+                    options: [
+                        "Bluetooth",
+                        "Wi-Fi",
+                        "NFC",
+                        "RFID"
+                    ],
+                    correct: 2,
+                    explanation: "NFC (Near Field Communication) is a short-distance networking technology with an effective range of 4 centimeters or less. It's commonly used for mobile payments and authentication.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "What is the primary advantage of USB-C over previous USB connectors?",
+                    options: [
+                        "Higher power output only",
+                        "Reversible connector only",
+                        "Faster data transfer only",
+                        "All of the above"
+                    ],
+                    correct: 3,
+                    explanation: "USB-C offers multiple advantages: it's reversible (can be inserted either way), supports higher power output for charging devices, and enables faster data transfer speeds with USB 3.1 and later standards.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "What does MDM stand for in mobile device management?",
+                    options: [
+                        "Mobile Device Monitoring",
+                        "Mobile Device Management",
+                        "Multi-Device Management",
+                        "Mobile Data Management"
+                    ],
+                    correct: 1,
+                    explanation: "MDM stands for Mobile Device Management. It's used to manage company-owned and user-owned mobile devices (BYOD - Bring Your Own Device) in enterprise environments.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Which cellular technology was launched worldwide in 2020 and offers significant performance improvements?",
+                    options: [
+                        "3G",
+                        "4G LTE",
+                        "5G",
+                        "2G"
+                    ],
+                    correct: 2,
+                    explanation: "5G (Fifth generation cellular networking) was launched worldwide in 2020 and offers significant performance improvements, with speeds eventually reaching 10 gigabits per second.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "What is the purpose of a SIM card in mobile devices?",
+                    options: [
+                        "Store user photos and videos",
+                        "Provide unique identifier for cellular devices",
+                        "Increase processing power",
+                        "Extend battery life"
+                    ],
+                    correct: 1,
+                    explanation: "A SIM (Subscriber Identity Module) card provides a unique identifier for cellular devices. It contains information for the carrier and user, including the SIM ID, phone number, and cellular network information.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "What is the first step in the Bluetooth pairing process?",
+                    options: [
+                        "Enter PIN",
+                        "Enable Bluetooth on both devices",
+                        "Set devices to discoverable mode",
+                        "Test connectivity"
+                    ],
+                    correct: 1,
+                    explanation: "The first step in Bluetooth pairing is to enable Bluetooth on both devices. This is typically done through the device settings (Android/iOS: Settings/Bluetooth).",
+                    difficulty: "exam"
+                },
+                {
+                    question: "Which mobile device management approach gives the organization full control of the device?",
+                    options: [
+                        "BYOD",
+                        "COPE",
+                        "CYOD",
+                        "Personal Device"
+                    ],
+                    correct: 1,
+                    explanation: "COPE (Corporate Owned, Personally Enabled) means the company buys the device and maintains full control, similar to company-owned laptops and desktops. Information can be deleted at any time.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "What technology uses a series of satellites to determine precise location information?",
+                    options: [
+                        "Wi-Fi positioning",
+                        "Cell tower triangulation",
+                        "GPS",
+                        "Bluetooth beaconing"
+                    ],
+                    correct: 2,
+                    explanation: "GPS (Global Positioning System) uses over 30 satellites currently in orbit to determine precise navigation and location information based on longitude, latitude, and altitude.",
+                    difficulty: "easy"
+                }
+            ],
+            'networking': [
+                {
+                    question: "Which protocol is connectionless and does NOT provide error recovery or flow control?",
+                    options: [
+                        "TCP",
+                        "UDP",
+                        "HTTP",
+                        "FTP"
+                    ],
+                    correct: 1,
+                    explanation: "UDP (User Datagram Protocol) is connectionless and does not provide error recovery, reordering of data, or retransmissions. It's commonly used for real-time communication where speed is critical.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "What is the well-known port number for SSH (Secure Shell)?",
+                    options: [
+                        "21",
+                        "22",
+                        "23",
+                        "24"
+                    ],
+                    correct: 1,
+                    explanation: "SSH (Secure Shell) uses TCP port 22 for encrypted communication links. It provides secure remote administration and looks/acts similar to Telnet but with encryption.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Which protocol converts human-readable domain names into computer-readable IP addresses?",
+                    options: [
+                        "DHCP",
+                        "DNS",
+                        "HTTP",
+                        "SMTP"
+                    ],
+                    correct: 1,
+                    explanation: "DNS (Domain Name System) converts human-readable names (like www.example.com) into computer-readable IP addresses. It's a distributed system with many DNS servers worldwide.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "What is the DORA process in DHCP?",
+                    options: [
+                        "Data, Offer, Request, Acknowledge",
+                        "Discover, Offer, Request, Acknowledge",
+                        "Download, Operate, Receive, Acknowledge",
+                        "Detect, Obtain, Request, Assign"
+                    ],
+                    correct: 1,
+                    explanation: "DHCP uses the DORA process: Discover (find DHCP server), Offer (get IP offer), Request (lock in the offer), and Acknowledge (DHCP server confirmation).",
+                    difficulty: "exam"
+                },
+                {
+                    question: "Which wireless standard operates in the 2.4 GHz, 5 GHz, and 6 GHz frequency bands?",
+                    options: [
+                        "802.11g",
+                        "802.11n",
+                        "802.11ac",
+                        "802.11ax (Wi-Fi 6/6E)"
+                    ],
+                    correct: 3,
+                    explanation: "802.11ax (Wi-Fi 6 and Wi-Fi 6E) operates in 2.4 GHz, 5 GHz, and 6 GHz bands. Wi-Fi 6E specifically extends Wi-Fi 6 into the 6 GHz band for additional capacity.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "What is the purpose of a VLAN (Virtual Local Area Network)?",
+                    options: [
+                        "Increase network speed",
+                        "Logically separate devices on the same physical network",
+                        "Connect different physical networks",
+                        "Provide internet access"
+                    ],
+                    correct: 1,
+                    explanation: "VLANs logically separate devices on the same physical network. Devices in different VLANs cannot communicate directly, even if they're connected to the same switch.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "Which device makes forwarding decisions based on IP addresses?",
+                    options: [
+                        "Switch",
+                        "Hub",
+                        "Router",
+                        "Bridge"
+                    ],
+                    correct: 2,
+                    explanation: "Routers make forwarding decisions based on IP addresses at Layer 3 of the OSI model. They connect different network types and determine the best path for traffic.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "What is the primary purpose of PoE (Power over Ethernet)?",
+                    options: [
+                        "Increase data transfer speed",
+                        "Provide power and data over the same cable",
+                        "Encrypt network traffic",
+                        "Extend wireless range"
+                    ],
+                    correct: 1,
+                    explanation: "PoE (Power over Ethernet) provides both power and data over the same Ethernet cable. This is useful for devices like IP phones, wireless access points, and security cameras.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Which private IP address range is defined by RFC 1918 for Class A networks?",
+                    options: [
+                        "192.168.0.0 - 192.168.255.255",
+                        "172.16.0.0 - 172.31.255.255",
+                        "10.0.0.0 - 10.255.255.255",
+                        "169.254.0.0 - 169.254.255.255"
+                    ],
+                    correct: 2,
+                    explanation: "RFC 1918 defines private IP address ranges: Class A (10.0.0.0 - 10.255.255.255), Class B (172.16.0.0 - 172.31.255.255), and Class C (192.168.0.0 - 192.168.255.255).",
+                    difficulty: "exam"
+                },
+                {
+                    question: "What is the IPv6 address length in bits?",
+                    options: [
+                        "32 bits",
+                        "64 bits",
+                        "128 bits",
+                        "256 bits"
+                    ],
+                    correct: 2,
+                    explanation: "IPv6 uses 128-bit addresses, providing approximately 340 undecillion (340 trillion trillion trillion) unique addresses. The first 64 bits typically represent the network prefix.",
+                    difficulty: "easy"
+                }
+            ],
+            'hardware': [
+                {
+                    question: "Which LCD technology offers the best color representation and viewing angles?",
+                    options: [
+                        "TN (Twisted Nematic)",
+                        "IPS (In Plane Switching)",
+                        "VA (Vertical Alignment)",
+                        "CRT (Cathode Ray Tube)"
+                    ],
+                    correct: 1,
+                    explanation: "IPS (In Plane Switching) LCD technology offers excellent color representation and wide viewing angles. While more expensive to produce than TN panels, IPS provides superior visual quality.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "What is the maximum data transfer rate of SATA Revision 3.0?",
+                    options: [
+                        "1.5 Gbit/s",
+                        "3.0 Gbit/s",
+                        "6.0 Gbit/s",
+                        "16.0 Gbit/s"
+                    ],
+                    correct: 2,
+                    explanation: "SATA Revision 3.0 supports up to 6.0 Gbit/s data transfer rate. SATA 1.0 was 1.5 Gbit/s, SATA 2.0 was 3.0 Gbit/s, and SATA 3.2 increased this to 16 Gbit/s.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "Which memory type is used in laptops due to its smaller form factor?",
+                    options: [
+                        "DIMM",
+                        "SO-DIMM",
+                        "SIMM",
+                        "RIMM"
+                    ],
+                    correct: 1,
+                    explanation: "SO-DIMM (Small Outline Dual In-line Memory Module) is used in laptops and mobile devices due to its smaller form factor. It's about half the width of a standard DIMM.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "What is the primary function of thermal paste?",
+                    options: [
+                        "Act as an adhesive",
+                        "Improve thermal conductivity between component and heat sink",
+                        "Provide electrical insulation",
+                        "Prevent corrosion"
+                    ],
+                    correct: 1,
+                    explanation: "Thermal paste (thermal grease) improves thermal conductivity between a component (like a CPU) and its heat sink. It fills microscopic air gaps to improve heat transfer.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "Which connector type is known as 'one connector to rule them all' and can carry USB, Thunderbolt, DisplayPort, and HDMI signals?",
+                    options: [
+                        "USB-A",
+                        "USB-B",
+                        "USB-C",
+                        "Micro-USB"
+                    ],
+                    correct: 2,
+                    explanation: "USB-C is a 24-pin double-sided connector that can carry multiple signal types including USB, Thunderbolt, DisplayPort, and HDMI video. It's designed to replace multiple connector types.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "What does NVMe stand for and what is its primary advantage?",
+                    options: [
+                        "Non-Volatile Memory Express - Lower latency for SSDs",
+                        "Network Virtual Memory Express - Network storage",
+                        "New Virtual Memory Express - Virtual memory",
+                        "Non-Volatile Memory Extension - Memory expansion"
+                    ],
+                    correct: 0,
+                    explanation: "NVMe (Non-volatile Memory Express) is designed specifically for SSD speeds, offering lower latency and supporting higher throughputs than SATA-based SSDs by using the PCI Express bus.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "Which RAID level provides striping with parity and requires at least three disks?",
+                    options: [
+                        "RAID 0",
+                        "RAID 1",
+                        "RAID 5",
+                        "RAID 10"
+                    ],
+                    correct: 2,
+                    explanation: "RAID 5 provides striping with parity and requires at least three disks. It offers efficient use of disk space and can tolerate the failure of one drive without data loss.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "What is the standard motherboard power connector for modern ATX systems?",
+                    options: [
+                        "20-pin",
+                        "24-pin",
+                        "4-pin",
+                        "8-pin"
+                    ],
+                    correct: 1,
+                    explanation: "Modern ATX systems use a 24-pin motherboard power connector. The original ATX standard used 20 pins, but 24 pins were added to support PCI Express power requirements.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Which expansion slot type communicates serially with unidirectional lanes?",
+                    options: [
+                        "PCI",
+                        "PCI-X",
+                        "PCI Express",
+                        "AGP"
+                    ],
+                    correct: 2,
+                    explanation: "PCI Express (PCIe) communicates serially using unidirectional serial lanes (x1, x2, x4, x8, x16, x32). This design prevents slower devices from slowing down the entire bus.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "What is the purpose of a TPM (Trusted Platform Module)?",
+                    options: [
+                        "Increase graphics performance",
+                        "Provide hardware-based cryptographic functions",
+                        "Improve network connectivity",
+                        "Enhance audio quality"
+                    ],
+                    correct: 1,
+                    explanation: "TPM (Trusted Platform Module) provides hardware-based cryptographic functions including a cryptographic processor, random number generator, and secure key storage for single-device encryption.",
+                    difficulty: "exam"
+                }
+            ],
+            'virtualization': [
+                {
+                    question: "What is a hypervisor?",
+                    options: [
+                        "A type of virtual machine",
+                        "Software that manages virtual machines",
+                        "A cloud storage service",
+                        "A network protocol"
+                    ],
+                    correct: 1,
+                    explanation: "A hypervisor (Virtual Machine Manager) is software that manages the virtual platform and guest operating systems. It can be Type 1 (bare metal) or Type 2 (hosted).",
+                    difficulty: "easy"
+                },
+                {
+                    question: "Which type of hypervisor runs directly on physical hardware without an underlying operating system?",
+                    options: [
+                        "Type 1 (Bare Metal)",
+                        "Type 2 (Hosted)",
+                        "Type 3 (Hybrid)",
+                        "Type 4 (Cloud)"
+                    ],
+                    correct: 0,
+                    explanation: "Type 1 (Bare Metal) hypervisors run directly on physical hardware without an underlying operating system. Examples include VMware ESXi, Microsoft Hyper-V, and Xen Project.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "What is the main security concern with VM escaping?",
+                    options: [
+                        "Virtual machines consuming too many resources",
+                        "Malware compromising the hypervisor and jumping between guest OSes",
+                        "Virtual machines being too slow",
+                        "Network congestion"
+                    ],
+                    correct: 1,
+                    explanation: "VM escaping is a security concern where malware recognizes it's on a virtual machine, compromises the hypervisor, and jumps from one guest OS to another, potentially accessing other customers' data in cloud environments.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "What does SaaS stand for in cloud computing?",
+                    options: [
+                        "Storage as a Service",
+                        "Security as a Service",
+                        "Software as a Service",
+                        "System as a Service"
+                    ],
+                    correct: 2,
+                    explanation: "SaaS (Software as a Service) provides on-demand software with no local installation required. Examples include Google Mail and Microsoft 365 where the application runs on remote servers.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "In which cloud deployment model do you maintain the most control over your data and infrastructure?",
+                    options: [
+                        "Public Cloud",
+                        "Private Cloud",
+                        "Hybrid Cloud",
+                        "Community Cloud"
+                    ],
+                    correct: 1,
+                    explanation: "Private cloud (your own virtualized local data center) provides the most control over data and infrastructure since resources are dedicated and managed internally.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "What is the primary characteristic of IaaS (Infrastructure as a Service)?",
+                    options: [
+                        "Complete application offering with no development work",
+                        "Platform for developing applications",
+                        "Outsourced equipment where you manage the OS and applications",
+                        "Only storage services"
+                    ],
+                    correct: 2,
+                    explanation: "IaaS (Infrastructure as a Service) outsources equipment (servers, storage, networking) but you're still responsible for managing the operating system and applications.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "What does VDI (Virtual Desktop Infrastructure) provide?",
+                    options: [
+                        "Virtual servers in the cloud",
+                        "Remote desktop access with applications running on servers",
+                        "Virtual network connections",
+                        "Cloud storage"
+                    ],
+                    correct: 1,
+                    explanation: "VDI (Virtual Desktop Infrastructure) provides remote desktop access where applications actually run on remote servers. The client device needs minimal resources since everything happens on the server.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "What is a container in application containerization?",
+                    options: [
+                        "A virtual machine",
+                        "A physical server",
+                        "A standardized unit containing code and dependencies",
+                        "A cloud storage bucket"
+                    ],
+                    correct: 2,
+                    explanation: "A container is a standardized unit containing everything needed to run an application (code and dependencies). It's an isolated process that uses the host kernel but cannot interact with other containers.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "Which cloud characteristic allows resources to scale up and down seamlessly as needed?",
+                    options: [
+                        "Availability",
+                        "Elasticity",
+                        "Multitenancy",
+                        "Metering"
+                    ],
+                    correct: 1,
+                    explanation: "Elasticity is the cloud characteristic that allows resources to scale up and down seamlessly as needed. The cloud enables instant resource provisioning based on demand.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "What is sandboxing in virtualization?",
+                    options: [
+                        "Playing in a sandbox",
+                        "Isolated testing environment with no connection to production",
+                        "Shared resource allocation",
+                        "Network segmentation"
+                    ],
+                    correct: 1,
+                    explanation: "Sandboxing is an isolated testing environment with no connection to the real world or production system. It provides a safe space for development and testing without affecting live systems.",
+                    difficulty: "easy"
+                }
+            ],
+            'troubleshooting': [
+                {
+                    question: "What does POST stand for and what does it do?",
+                    options: [
+                        "Power On Self Test - Tests major system components before booting OS",
+                        "Program Operating System Test - Tests the operating system",
+                        "Power On System Test - Tests the power supply only",
+                        "Primary Operating System Test - Tests boot sequence"
+                    ],
+                    correct: 0,
+                    explanation: "POST (Power On Self Test) tests major system components (CPU, CMOS, video, memory) before booting the operating system. Failures are usually noted with beeps and/or codes.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "What is the most likely cause of a Windows Blue Screen of Death (BSOD) during startup?",
+                    options: [
+                        "User error",
+                        "Bad hardware, bad drivers, or bad application",
+                        "Low disk space",
+                        "Network connectivity issues"
+                    ],
+                    correct: 1,
+                    explanation: "BSOD during startup is typically caused by bad hardware, bad drivers, or bad applications. Troubleshooting steps include using Last Known Good Configuration, System Restore, or Safe Mode.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "What should you check first when troubleshooting no network connectivity?",
+                    options: [
+                        "Router configuration",
+                        "IP configuration",
+                        "Link light - Is it plugged in?",
+                        "DNS settings"
+                    ],
+                    correct: 2,
+                    explanation: "First check for a link light to verify physical connectivity. This basic step confirms the cable is connected and the network adapter is detecting a signal.",
+                    difficulty: "easy"
+                },
+                {
+                    question: "What is the 'click of death' in storage troubleshooting?",
+                    options: [
+                        "Mouse clicking noise",
+                        "Loud clicking noise from failing hard drive",
+                        "Clicking sound from keyboard",
+                        "Network packet loss"
+                    ],
+                    correct: 1,
+                    explanation: "The 'click of death' is a loud clicking noise from a failing hard drive. It indicates mechanical failure and often precedes complete drive failure. Immediate backup is critical.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "What is the most important first step when troubleshooting a failing hard drive?",
+                    options: [
+                        "Run diagnostics",
+                        "Check cables",
+                        "Get a backup - First thing",
+                        "Replace the drive"
+                    ],
+                    correct: 2,
+                    explanation: "The most important first step when troubleshooting a failing hard drive is to get a backup. A bad drive can fail completely at any time, so data preservation is the top priority.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "What does S.M.A.R.T. stand for in drive monitoring?",
+                    options: [
+                        "System Management And Reporting Technology",
+                        "Self-Monitoring, Analysis, and Reporting Technology",
+                        "Storage Management And Recovery Technology",
+                        "Secure Memory And Recovery Technology"
+                    ],
+                    correct: 1,
+                    explanation: "S.M.A.R.T. (Self-Monitoring, Analysis, and Reporting Technology) is used to monitor drive health and predict failures by tracking various metrics over time.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "What is the most likely cause of distorted or fuzzy image on an LCD display?",
+                    options: [
+                        "Wrong color profile",
+                        "Resolution not matching native resolution",
+                        "Brightness too high",
+                        "Contrast too low"
+                    ],
+                    correct: 1,
+                    explanation: "A distorted or fuzzy image on an LCD display is most likely caused by the resolution not matching the display's native resolution. LCDs look best at their native resolution.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "What should you do immediately if a mobile device gets wet?",
+                    options: [
+                        "Turn it on to check if it works",
+                        "Put it in rice",
+                        "Power down immediately and do not turn it back on",
+                        "Use a hair dryer to dry it"
+                    ],
+                    correct: 2,
+                    explanation: "If a mobile device gets wet, immediately power it down and do not turn it back on. Do not charge it or press any keys. This prevents short circuits while the device dries.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "What is the most common cause of random computer shutdowns?",
+                    options: [
+                        "Software bugs",
+                        "Overheating",
+                        "Power supply issues",
+                        "Network problems"
+                    ],
+                    correct: 1,
+                    explanation: "Overheating is the most common cause of random computer shutdowns. The system automatically shuts down to protect components from heat damage. Check fans and heat sinks.",
+                    difficulty: "exam"
+                },
+                {
+                    question: "What does APIPA stand for and what IP range does it use?",
+                    options: [
+                        "Automatic Private IP Addressing - 169.254.0.0 to 169.254.255.255",
+                        "Advanced Private Internet Protocol Addressing - 192.168.0.0 to 192.168.255.255",
+                        "Automatic Public IP Addressing - 10.0.0.0 to 10.255.255.255",
+                        "Advanced Protocol for Internet Addressing - 172.16.0.0 to 172.31.255.255"
+                    ],
+                    correct: 0,
+                    explanation: "APIPA (Automatic Private IP Addressing) uses the range 169.254.0.0 to 169.254.255.255. It's a link-local address assigned when DHCP fails and provides only local connectivity.",
+                    difficulty: "exam"
+                }
+            ]
+        };
+
+        // Initialize the application
+        function init() {
+            loadSettings();
+            loadStatistics();
+            populateModules();
+            populatePortTable();
+            updateDashboard();
+            showSection('dashboard');
+        }
+
+        // Settings Management
+        function loadSettings() {
+            const saved = localStorage.getItem('comptia-settings');
+            if (saved) {
+                AppState.settings = { ...AppState.settings, ...JSON.parse(saved) };
+            }
+            updateSettingsUI();
+        }
+
+        function saveSettings() {
+            localStorage.setItem('comptia-settings', JSON.stringify(AppState.settings));
+        }
+
+        function updateSettingsUI() {
+            Object.keys(AppState.settings).forEach(key => {
+                const element = document.getElementById(key + 'Toggle');
+                if (element) {
+                    element.classList.toggle('active', AppState.settings[key]);
+                }
+                const select = document.getElementById(key + 'Select');
+                if (select) {
+                    select.value = AppState.settings[key];
+                }
+            });
+        }
+
+        function toggleSetting(setting) {
+            AppState.settings[setting] = !AppState.settings[setting];
+            updateSettingsUI();
+            saveSettings();
+            showToast(`${setting} ${AppState.settings[setting] ? 'enabled' : 'disabled'}`);
+        }
+
+        function changeDifficulty() {
+            const select = document.getElementById('difficultySelect');
+            AppState.settings.difficulty = select.value;
+            saveSettings();
+            showToast(`Difficulty set to ${select.value}`);
+        }
+
+        function toggleExamTimer() {
+            AppState.settings.examTimer = !AppState.settings.examTimer;
+            const toggle = document.getElementById('examTimerToggle');
+            toggle.classList.toggle('active', AppState.settings.examTimer);
+            saveSettings();
+        }
+
+        function toggleDomainWeighting() {
+            AppState.settings.domainWeighting = !AppState.settings.domainWeighting;
+            const toggle = document.getElementById('domainWeightingToggle');
+            toggle.classList.toggle('active', AppState.settings.domainWeighting);
+            saveSettings();
+        }
+
+        // Statistics Management
+        function loadStatistics() {
+            const saved = localStorage.getItem('comptia-statistics');
+            if (saved) {
+                AppState.statistics = { ...AppState.statistics, ...JSON.parse(saved) };
+            }
+        }
+
+        function saveStatistics() {
+            localStorage.setItem('comptia-statistics', JSON.stringify(AppState.statistics));
+        }
+
+        function updateStatistics(correct) {
+            AppState.statistics.totalQuestions++;
+            if (correct) {
+                AppState.statistics.correctAnswers++;
+            }
+            saveStatistics();
+            updateDashboard();
+        }
+
+        function updateModuleProgress(moduleId, correct, total) {
+            if (!AppState.statistics.moduleProgress[moduleId]) {
+                AppState.statistics.moduleProgress[moduleId] = { correct: 0, total: 0 };
+            }
+            AppState.statistics.moduleProgress[moduleId].correct += correct;
+            AppState.statistics.moduleProgress[moduleId].total += total;
+            saveStatistics();
+        }
+
+        // Navigation
+        function showSection(sectionId) {
+            // Update navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Find and activate the correct nav item
+            const navItems = document.querySelectorAll('.nav-item');
+            for (let item of navItems) {
+                if (item.getAttribute('onclick') === `showSection('${sectionId}')`) {
+                    item.classList.add('active');
+                    break;
+                }
+            }
+
+            // Update sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+
+            AppState.currentSection = sectionId;
+        }
+
+        // Dashboard
+        function updateDashboard() {
+            const stats = AppState.statistics;
+            const overallProgress = stats.totalQuestions > 0 ? Math.round((stats.correctAnswers / stats.totalQuestions) * 100) : 0;
+            
+            document.getElementById('overallProgress').textContent = overallProgress + '%';
+            document.getElementById('overallProgressBar').style.width = overallProgress + '%';
+            document.getElementById('totalQuestions').textContent = stats.totalQuestions.toLocaleString();
+            document.getElementById('correctAnswers').textContent = stats.correctAnswers.toLocaleString();
+            document.getElementById('bestScore').textContent = stats.bestScore + '%';
+            document.getElementById('studyStreak').textContent = stats.studyStreak;
+
+            // Update module progress
+            const moduleProgress = document.getElementById('moduleProgress');
+            moduleProgress.innerHTML = '';
+            
+            MODULES.forEach(module => {
+                const progress = AppState.statistics.moduleProgress[module.id] || { correct: 0, total: 0 };
+                const percentage = progress.total > 0 ? Math.round((progress.correct / progress.total) * 100) : 0;
+                
+                const progressDiv = document.createElement('div');
+                progressDiv.className = 'progress-container';
+                progressDiv.innerHTML = `
+                    <div class="progress-label">
+                        <span>${module.title.split(' - ')[1]}</span>
+                        <span>${percentage}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill ${module.color}" style="width: ${percentage}%"></div>
+                    </div>
+                `;
+                moduleProgress.appendChild(progressDiv);
+            });
+        }
+
+        function resumeLastActivity() {
+            const lastActivity = localStorage.getItem('comptia-lastActivity');
+            if (lastActivity) {
+                const activity = JSON.parse(lastActivity);
+                if (activity.type === 'moduleQuiz') {
+                    startModuleQuiz(activity.moduleId);
+                } else if (activity.type === 'practiceExam') {
+                    startPracticeExam();
+                } else if (activity.type === 'portQuiz') {
+                    showSection('portQuiz');
+                }
+            } else {
+                showToast('No last activity found');
+            }
+        }
+
+        // Modules
+        function populateModules() {
+            const moduleGrid = document.getElementById('moduleGrid');
+            moduleGrid.innerHTML = '';
+
+            MODULES.forEach(module => {
+                const progress = AppState.statistics.moduleProgress[module.id] || { correct: 0, total: 0 };
+                const percentage = progress.total > 0 ? Math.round((progress.correct / progress.total) * 100) : 0;
+                
+                const moduleCard = document.createElement('div');
+                moduleCard.className = 'module-card';
+                moduleCard.onclick = () => startModuleQuiz(module.id);
+                moduleCard.innerHTML = `
+                    <div class="module-header">
+                        <div class="module-title">${module.title}</div>
+                        <div class="module-percentage">${percentage}%</div>
+                    </div>
+                    <div class="module-description">${module.description}</div>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill ${module.color}" style="width: ${percentage}%"></div>
+                        </div>
+                    </div>
+                `;
+                moduleGrid.appendChild(moduleCard);
+            });
+        }
+
+        function startModuleQuiz(moduleId) {
+            const module = MODULES.find(m => m.id === moduleId);
+            if (!module) return;
+
+            const questions = QUESTION_BANK[moduleId] || [];
+            if (questions.length === 0) {
+                showToast('No questions available for this module');
+                return;
+            }
+
+            // Shuffle questions if enabled
+            let quizQuestions = [...questions];
+            if (AppState.settings.shuffleQuestions) {
+                quizQuestions = shuffleArray(quizQuestions);
+            }
+
+            // Take first 50 questions or all available
+            quizQuestions = quizQuestions.slice(0, Math.min(50, quizQuestions.length));
+
+            AppState.currentQuiz = {
+                moduleId,
+                questions: quizQuestions,
+                currentIndex: 0,
+                answers: [],
+                score: 0,
+                startTime: Date.now()
+            };
+
+            showSection('moduleQuiz');
+            displayQuestion();
+            
+            // Save last activity
+            localStorage.setItem('comptia-lastActivity', JSON.stringify({
+                type: 'moduleQuiz',
+                moduleId
+            }));
+        }
+
+        function displayQuestion() {
+            const quiz = AppState.currentQuiz;
+            const question = quiz.questions[quiz.currentIndex];
+            
+            document.getElementById('currentQuestion').textContent = quiz.currentIndex + 1;
+            document.getElementById('totalQuizQuestions').textContent = quiz.questions.length;
+            document.getElementById('questionText').textContent = question.question;
+
+            const optionsContainer = document.getElementById('answerOptions');
+            optionsContainer.innerHTML = '';
+
+            // Shuffle answers if enabled
+            let options = [...question.options];
+            let correctIndex = question.correct;
+            
+            if (AppState.settings.shuffleAnswers) {
+                const shuffled = shuffleWithIndex(options, correctIndex);
+                options = shuffled.array;
+                correctIndex = shuffled.index;
+            }
+
+            options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'answer-option';
+                optionDiv.onclick = () => selectAnswer(index);
+                optionDiv.innerHTML = `
+                    <div class="answer-letter">${String.fromCharCode(65 + index)}</div>
+                    <div class="answer-text">${option}</div>
+                `;
+                optionsContainer.appendChild(optionDiv);
+            });
+
+            // Store correct answer index
+            question.currentCorrect = correctIndex;
+
+            // Hide explanation and reset buttons
+            document.getElementById('questionExplanation').style.display = 'none';
+            document.getElementById('submitAnswerBtn').style.display = 'inline-block';
+            document.getElementById('nextQuestionBtn').style.display = 'none';
+        }
+
+        function selectAnswer(index) {
+            // Clear previous selections
+            document.querySelectorAll('.answer-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Select current option
+            document.querySelectorAll('.answer-option')[index].classList.add('selected');
+            AppState.currentQuiz.selectedAnswer = index;
+
+            // If instant feedback is enabled
+            if (AppState.settings.instantFeedback) {
+                submitAnswer();
+            }
+        }
+
+        function submitAnswer() {
+            const quiz = AppState.currentQuiz;
+            const question = quiz.questions[quiz.currentIndex];
+            const selectedAnswer = quiz.selectedAnswer;
+            
+            if (selectedAnswer === undefined) {
+                showToast('Please select an answer');
+                return;
+            }
+
+            const isCorrect = selectedAnswer === question.currentCorrect;
+            
+            // Update answer display
+            document.querySelectorAll('.answer-option').forEach((option, index) => {
+                if (index === question.currentCorrect) {
+                    option.classList.add('correct');
+                } else if (index === selectedAnswer && !isCorrect) {
+                    option.classList.add('incorrect');
+                }
+            });
+
+            // Store answer
+            quiz.answers.push({
+                questionIndex: quiz.currentIndex,
+                selected: selectedAnswer,
+                correct: question.currentCorrect,
+                isCorrect
+            });
+
+            if (isCorrect) {
+                quiz.score++;
+            }
+
+            // Show explanation
+            document.getElementById('explanationText').textContent = question.explanation;
+            document.getElementById('questionExplanation').style.display = 'block';
+
+            // Update buttons
+            document.getElementById('submitAnswerBtn').style.display = 'none';
+            document.getElementById('nextQuestionBtn').style.display = 'inline-block';
+
+            // Update statistics
+            updateStatistics(isCorrect);
+
+            // Play feedback
+            if (AppState.settings.sound) {
+                playFeedback(isCorrect);
+            }
+            if (AppState.settings.vibration && navigator.vibrate) {
+                navigator.vibrate(isCorrect ? 50 : 200);
+            }
+
+            // Auto advance if enabled
+            if (AppState.settings.autoAdvance) {
+                setTimeout(nextQuestion, 2000);
+            }
+        }
+
+        function nextQuestion() {
+            const quiz = AppState.currentQuiz;
+            quiz.currentIndex++;
+            quiz.selectedAnswer = undefined;
+
+            if (quiz.currentIndex >= quiz.questions.length) {
+                finishQuiz();
+            } else {
+                displayQuestion();
+            }
+        }
+
+        function finishQuiz() {
+            const quiz = AppState.currentQuiz;
+            const percentage = Math.round((quiz.score / quiz.questions.length) * 100);
+            const timeSpent = Math.round((Date.now() - quiz.startTime) / 1000);
+            
+            // Update module progress
+            updateModuleProgress(quiz.moduleId, quiz.score, quiz.questions.length);
+
+            showToast(`Quiz completed! Score: ${percentage}%`);
+            
+            // Show results and return to modules
+            setTimeout(() => {
+                showSection('modules');
+                updateDashboard();
+            }, 2000);
+        }
+
+        function exitQuiz() {
+            if (confirm('Are you sure you want to exit the quiz? Your progress will be lost.')) {
+                showSection('modules');
+            }
+        }
+
+        // Port Reference
+        function populatePortTable() {
+            const tbody = document.getElementById('portTableBody');
+            tbody.innerHTML = '';
+
+            PORT_DATA.forEach(port => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${port.port}</td>
+                    <td>${port.protocol}</td>
+                    <td>${port.service}</td>
+                    <td>${port.fullName}</td>
+                    <td>${port.use}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function filterPorts() {
+            const searchTerm = document.getElementById('portSearch').value.toLowerCase();
+            const rows = document.querySelectorAll('#portTableBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        }
+
+        function filterPortCategory(event, category) {
+            // Update active tab
+            document.querySelectorAll('#portFilterTabs .filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Filter rows
+            const rows = document.querySelectorAll('#portTableBody tr');
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                const protocol = cells[1].textContent.toLowerCase();
+                
+                let show = true;
+                if (category === 'tcp') {
+                    show = protocol.includes('tcp');
+                } else if (category === 'udp') {
+                    show = protocol.includes('udp');
+                } else if (category === 'common') {
+                    const port = parseInt(cells[0].textContent);
+                    show = port <= 1000;
+                }
+                
+                row.style.display = show ? '' : 'none';
+            });
+        }
+
+        // Port Quiz
+        function startPortQuiz() {
+            showSection('portQuiz');
+        }
+
+        function selectPortQuizMode(event, mode) {
+            // Clear previous selections
+            document.querySelectorAll('#portQuizModes .quiz-mode-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Select current mode
+            event.target.closest('.quiz-mode-card').classList.add('selected');
+            
+            AppState.portQuizMode = mode;
+            
+            // Start quiz after selection
+            setTimeout(() => {
+                document.getElementById('portQuizModes').style.display = 'none';
+                document.getElementById('portQuestionContainer').style.display = 'block';
+                initializePortQuizQuestions(mode);
+            }, 500);
+        }
+
+        // NEW: Renamed function with fixed question generation logic
+        function initializePortQuizQuestions(mode) {
+            let questions = [];
+            const allServices = [...new Set(PORT_DATA.map(p => p.service))];
+            
+            if (mode === 'port-to-service') {
+                PORT_DATA.forEach(port => {
+                    const options = generatePortOptions(port.service, allServices);
+                    questions.push({
+                        question: `What service uses port ${port.port}/${port.protocol.split('/')[0]}?`,
+                        options: options.options,
+                        correct: options.correctIndex,
+                        explanation: `Port ${port.port} is used by ${port.service} (${port.fullName}). ${port.use}`,
+                        type: 'port-to-service'
+                    });
+                });
+            } else if (mode === 'service-to-port') {
+                allServices.forEach(service => {
+                    const portInfo = PORT_DATA.find(p => p.service === service);
+                    const options = generatePortOptions(portInfo.port, PORT_DATA.map(p => p.port));
+                    questions.push({
+                        question: `What port does ${service} (${portInfo.fullName}) use?`,
+                        options: options.options,
+                        correct: options.correctIndex,
+                        explanation: `${service} uses port ${portInfo.port}/${portInfo.protocol.split('/')[0]}. ${portInfo.use}`,
+                        type: 'service-to-port'
+                    });
+                });
+            } else {
+                // Mixed mode
+                const portQuestions = PORT_DATA.map(port => {
+                    const options = generatePortOptions(port.service, allServices);
+                    return {
+                        question: `What service uses port ${port.port}/${port.protocol.split('/')[0]}?`,
+                        options: options.options,
+                        correct: options.correctIndex,
+                        explanation: `Port ${port.port} is used by ${port.service} (${port.fullName}). ${port.use}`,
+                        type: 'port-to-service'
+                    };
+                });
+                
+                const serviceQuestions = allServices.map(service => {
+                    const portInfo = PORT_DATA.find(p => p.service === service);
+                    const options = generatePortOptions(portInfo.port, PORT_DATA.map(p => p.port));
+                    return {
+                        question: `What port does ${service} (${portInfo.fullName}) use?`,
+                        options: options.options,
+                        correct: options.correctIndex,
+                        explanation: `${service} uses port ${portInfo.port}/${portInfo.protocol.split('/')[0]}. ${portInfo.use}`,
+                        type: 'service-to-port'
+                    };
+                });
+                
+                questions = [...portQuestions, ...serviceQuestions];
+            }
+
+            questions = shuffleArray(questions).slice(0, 20);
+
+            AppState.currentPortQuiz = {
+                questions,
+                currentIndex: 0,
+                answers: [],
+                score: 0
+            };
+
+            displayPortQuestion();
+        }
+
+        // FIXED: Port options generation - now returns correct index
+        function generatePortOptions(correct, allValues) {
+            const options = [correct];
+            while (options.length < 4) {
+                const random = allValues[Math.floor(Math.random() * allValues.length)];
+                if (!options.includes(random)) {
+                    options.push(random);
+                }
+            }
+            const shuffled = shuffleWithIndex(options);
+            return {
+                options: shuffled.array,
+                correctIndex: shuffled.index
+            };
+        }
+
+        function displayPortQuestion() {
+            const quiz = AppState.currentPortQuiz;
+            const question = quiz.questions[quiz.currentIndex];
+            
+            document.getElementById('currentPortQuestion').textContent = quiz.currentIndex + 1;
+            document.getElementById('totalPortQuestions').textContent = quiz.questions.length;
+            document.getElementById('portQuestionText').textContent = question.question;
+
+            const optionsContainer = document.getElementById('portAnswerOptions');
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'answer-option';
+                optionDiv.onclick = () => selectPortAnswer(index);
+                optionDiv.innerHTML = `
+                    <div class="answer-letter">${String.fromCharCode(65 + index)}</div>
+                    <div class="answer-text">${option}</div>
+                `;
+                optionsContainer.appendChild(optionDiv);
+            });
+
+            // Hide explanation and reset buttons
+            document.getElementById('portQuizActions').style.display = 'flex';
+            document.getElementById('submitPortAnswerBtn').style.display = 'inline-block';
+            document.getElementById('nextPortQuestionBtn').style.display = 'none';
+        }
+
+        function selectPortAnswer(index) {
+            document.querySelectorAll('#portAnswerOptions .answer-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            document.querySelectorAll('#portAnswerOptions .answer-option')[index].classList.add('selected');
+            AppState.currentPortQuiz.selectedAnswer = index;
+        }
+
+        function submitPortAnswer() {
+            const quiz = AppState.currentPortQuiz;
+            const question = quiz.questions[quiz.currentIndex];
+            const selectedAnswer = quiz.selectedAnswer;
+            
+            if (selectedAnswer === undefined) {
+                showToast('Please select an answer');
+                return;
+            }
+
+            const isCorrect = selectedAnswer === question.correct;
+            
+            // Update answer display
+            document.querySelectorAll('#portAnswerOptions .answer-option').forEach((option, index) => {
+                if (index === question.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedAnswer && !isCorrect) {
+                    option.classList.add('incorrect');
+                }
+            });
+
+            quiz.answers.push({
+                questionIndex: quiz.currentIndex,
+                selected: selectedAnswer,
+                correct: question.correct,
+                isCorrect
+            });
+
+            if (isCorrect) {
+                quiz.score++;
+            }
+
+            // Show explanation
+            const explanationDiv = document.createElement('div');
+            explanationDiv.className = 'explanation';
+            explanationDiv.style.display = 'block';
+            explanationDiv.style.marginTop = '20px';
+            explanationDiv.innerHTML = `
+                <div class="explanation-title">Explanation</div>
+                <div class="explanation-text">${question.explanation}</div>
+            `;
+            
+            const questionContainer = document.querySelector('#portQuiz .question-container');
+            // Remove old explanation if exists
+            const oldExplanation = questionContainer.querySelector('.explanation');
+            if (oldExplanation) oldExplanation.remove();
+            questionContainer.appendChild(explanationDiv);
+
+            // Update buttons
+            document.getElementById('submitPortAnswerBtn').style.display = 'none';
+            document.getElementById('nextPortQuestionBtn').style.display = 'inline-block';
+
+            // Play feedback
+            if (AppState.settings.sound) {
+                playFeedback(isCorrect);
+            }
+        }
+
+        function nextPortQuestion() {
+            const quiz = AppState.currentPortQuiz;
+            quiz.currentIndex++;
+            quiz.selectedAnswer = undefined;
+
+            // Remove explanation
+            const oldExplanation = document.querySelector('#portQuiz .explanation');
+            if (oldExplanation) oldExplanation.remove();
+
+            if (quiz.currentIndex >= quiz.questions.length) {
+                finishPortQuiz();
+            } else {
+                displayPortQuestion();
+            }
+        }
+
+        function finishPortQuiz() {
+            const quiz = AppState.currentPortQuiz;
+            const percentage = Math.round((quiz.score / quiz.questions.length) * 100);
+            
+            showToast(`Port quiz completed! Score: ${percentage}%`);
+            
+            setTimeout(() => {
+                document.getElementById('portQuizModes').style.display = 'grid';
+                document.getElementById('portQuestionContainer').style.display = 'none';
+                showSection('ports');
+            }, 2000);
+        }
+
+        function exitPortQuiz() {
+            if (confirm('Are you sure you want to exit the port quiz?')) {
+                document.getElementById('portQuizModes').style.display = 'grid';
+                document.getElementById('portQuestionContainer').style.display = 'none';
+                showSection('ports');
+            }
+        }
+
+        // Practice Exam
+        function startPracticeExam() {
+            const examQuestions = [];
+            
+            // Get questions from all modules based on domain weighting
+            MODULES.forEach(module => {
+                const moduleQuestions = QUESTION_BANK[module.id] || [];
+                const count = AppState.settings.domainWeighting ? 
+                    Math.round((module.percentage / 100) * 90) : 
+                    Math.floor(90 / MODULES.length);
+                
+                const shuffled = shuffleArray([...moduleQuestions]);
+                examQuestions.push(...shuffled.slice(0, count));
+            });
+
+            // Fill remaining slots if needed
+            while (examQuestions.length < 90) {
+                const randomModule = MODULES[Math.floor(Math.random() * MODULES.length)];
+                const moduleQuestions = QUESTION_BANK[randomModule.id] || [];
+                const randomQuestion = moduleQuestions[Math.floor(Math.random() * moduleQuestions.length)];
+                if (!examQuestions.includes(randomQuestion)) {
+                    examQuestions.push(randomQuestion);
+                }
+            }
+
+            // Shuffle all questions
+            const finalQuestions = shuffleArray(examQuestions).slice(0, 90);
+
+            AppState.currentExam = {
+                questions: finalQuestions,
+                currentIndex: 0,
+                answers: [],
+                score: 0,
+                startTime: Date.now()
+            };
+
+            if (AppState.settings.examTimer) {
+                AppState.examTimeRemaining = 5400; // 90 minutes
+                startExamTimer();
+            }
+
+            showSection('examMode');
+            displayExamQuestion();
+            
+            localStorage.setItem('comptia-lastActivity', JSON.stringify({
+                type: 'practiceExam'
+            }));
+        }
+
+        function startExamTimer() {
+            AppState.examTimer = setInterval(() => {
+                AppState.examTimeRemaining--;
+                updateExamTimer();
+                
+                if (AppState.examTimeRemaining <= 0) {
+                    finishExam();
+                }
+            }, 1000);
+        }
+
+        function updateExamTimer() {
+            const minutes = Math.floor(AppState.examTimeRemaining / 60);
+            const seconds = AppState.examTimeRemaining % 60;
+            const display = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            document.getElementById('examTimerDisplay').textContent = display;
+            
+            const timer = document.getElementById('examTimer');
+            timer.classList.remove('warning', 'danger');
+            
+            if (AppState.examTimeRemaining <= 300) { // 5 minutes
+                timer.classList.add('danger');
+            } else if (AppState.examTimeRemaining <= 900) { // 15 minutes
+                timer.classList.add('warning');
+            }
+        }
+
+        function displayExamQuestion() {
+            const exam = AppState.currentExam;
+            const question = exam.questions[exam.currentIndex];
+            
+            document.getElementById('currentExamQuestion').textContent = exam.currentIndex + 1;
+            document.getElementById('totalExamQuestions').textContent = exam.questions.length;
+            document.getElementById('examQuestionText').textContent = question.question;
+
+            const optionsContainer = document.getElementById('examAnswerOptions');
+            optionsContainer.innerHTML = '';
+
+            // Shuffle answers if enabled
+            let options = [...question.options];
+            let correctIndex = question.correct;
+            
+            if (AppState.settings.shuffleAnswers) {
+                const shuffled = shuffleWithIndex(options, correctIndex);
+                options = shuffled.array;
+                correctIndex = shuffled.index;
+            }
+
+            options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'answer-option';
+                optionDiv.onclick = () => selectExamAnswer(index);
+                optionDiv.innerHTML = `
+                    <div class="answer-letter">${String.fromCharCode(65 + index)}</div>
+                    <div class="answer-text">${option}</div>
+                `;
+                optionsContainer.appendChild(optionDiv);
+            });
+
+            question.currentCorrect = correctIndex;
+
+            // Reset UI
+            document.getElementById('submitExamAnswerBtn').style.display = 'inline-block';
+            document.getElementById('nextExamQuestionBtn').style.display = 'none';
+        }
+
+        function selectExamAnswer(index) {
+            document.querySelectorAll('#examAnswerOptions .answer-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            document.querySelectorAll('#examAnswerOptions .answer-option')[index].classList.add('selected');
+            AppState.currentExam.selectedAnswer = index;
+        }
+
+        function submitExamAnswer() {
+            const exam = AppState.currentExam;
+            const question = exam.questions[exam.currentIndex];
+            const selectedAnswer = exam.selectedAnswer;
+            
+            if (selectedAnswer === undefined) {
+                showToast('Please select an answer');
+                return;
+            }
+
+            const isCorrect = selectedAnswer === question.currentCorrect;
+            
+            // Store answer
+            exam.answers.push({
+                questionIndex: exam.currentIndex,
+                selected: selectedAnswer,
+                correct: question.currentCorrect,
+                isCorrect
+            });
+
+            if (isCorrect) {
+                exam.score++;
+            }
+
+            // Update UI
+            document.getElementById('submitExamAnswerBtn').style.display = 'none';
+            document.getElementById('nextExamQuestionBtn').style.display = 'inline-block';
+        }
+
+        function nextExamQuestion() {
+            const exam = AppState.currentExam;
+            exam.currentIndex++;
+            exam.selectedAnswer = undefined;
+
+            if (exam.currentIndex >= exam.questions.length) {
+                finishExam();
+            } else {
+                displayExamQuestion();
+            }
+        }
+
+        function finishExam() {
+            if (AppState.examTimer) {
+                clearInterval(AppState.examTimer);
+                AppState.examTimer = null;
+            }
+
+            const exam = AppState.currentExam;
+            const percentage = Math.round((exam.score / exam.questions.length) * 100);
+            const timeSpent = Math.round((Date.now() - exam.startTime) / 1000);
+            
+            // Update best score
+            if (percentage > AppState.statistics.bestScore) {
+                AppState.statistics.bestScore = percentage;
+            }
+
+            // Store exam result
+            AppState.statistics.lastExamResult = {
+                score: percentage,
+                correct: exam.score,
+                total: exam.questions.length,
+                timeSpent,
+                answers: exam.answers,
+                date: new Date().toISOString()
+            };
+
+            saveStatistics();
+            updateDashboard();
+
+            showToast(`Exam completed! Score: ${percentage}%`);
+            
+            setTimeout(() => {
+                showSection('practiceExam');
+                displayLastExamResults();
+            }, 2000);
+        }
+
+        function displayLastExamResults() {
+            const result = AppState.statistics.lastExamResult;
+            if (!result) return;
+
+            document.getElementById('lastExamScore').textContent = result.score + '%';
+            document.getElementById('lastExamCorrect').textContent = `${result.correct}/${result.total} Correct`;
+            
+            // Show results card
+            document.getElementById('lastExamResults').style.display = 'block';
+        }
+
+        function reviewLastExam() {
+            // Could implement exam review here
+            showToast('Exam review feature coming soon');
+        }
+
+        function exitExam() {
+            if (confirm('Are you sure you want to exit the exam? Your progress will be lost.')) {
+                if (AppState.examTimer) {
+                    clearInterval(AppState.examTimer);
+                    AppState.examTimer = null;
+                }
+                showSection('practiceExam');
+            }
+        }
+
+        // Settings and Data Management
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
+                AppState.statistics = {
+                    totalQuestions: 0,
+                    correctAnswers: 0,
+                    bestScore: 0,
+                    studyStreak: 0,
+                    moduleProgress: {},
+                    lastExamResult: null
+                };
+                saveStatistics();
+                updateDashboard();
+                populateModules();
+                showToast('All progress reset');
+            }
+        }
+
+        function exportData() {
+            const data = {
+                settings: AppState.settings,
+                statistics: AppState.statistics,
+                exportDate: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'comptia-study-data.json';
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            showToast('Study data exported');
+        }
+
+        // Utility Functions
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function shuffleWithIndex(array, correctIndex) {
+            const indices = array.map((_, i) => i);
+            const shuffledIndices = shuffleArray(indices);
+            const shuffledArray = shuffledIndices.map(i => array[i]);
+            const newCorrectIndex = shuffledIndices.indexOf(correctIndex);
+            
+            return { array: shuffledArray, index: newCorrectIndex };
+        }
+
+        function playFeedback(correct) {
+            // Simple audio feedback using Web Audio API
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            if (correct) {
+                oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                oscillator.frequency.setValueAtTime(1000, audioContext.currentTime + 0.1);
+            } else {
+                oscillator.frequency.setValueAtTime(300, audioContext.currentTime);
+                oscillator.frequency.setValueAtTime(200, audioContext.currentTime + 0.1);
+            }
+            
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.3);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const messageDiv = document.getElementById('toastMessage');
+            
+            messageDiv.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        function showSettings() {
+            showSection('settings');
+        }
+
+        function showAbout() {
+            alert('CompTIA A+ 220-1201 Study App\n\nVersion 1.0\n\nBuilt with Professor Messer course notes.\n\nFeatures:\n• 200+ exam-style questions\n• Interactive port quizzes\n• Progress tracking\n• Practice exams\n• Offline capable');
+        }
+
+        // Initialize app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+
+        // Handle visibility change to pause timers
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden && AppState.examTimer) {
+                // Optionally pause timer when app is hidden
+            }
+        });
+    </script>
+</body>
+</html>

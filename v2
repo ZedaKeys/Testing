@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompTIA A+ Core 1 Study App</title>
+    <style>
+        /* PHASE 1: Core Styles - Dark Mode Foundation */
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #2a2a2a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent-blue: #007aff;
+            --accent-green: #34c759;
+            --accent-red: #ff3b30;
+            --accent-orange: #ff9500;
+            --border-color: #333333;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation Tabs */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            padding: 0 20px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0;
+            list-style: none;
+        }
+
+        .nav-tab {
+            flex: 1;
+            text-align: center;
+            padding: 16px 8px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+            user-select: none;
+        }
+
+        .nav-tab:hover {
+            color: var(--text-primary);
+            background-color: var(--bg-tertiary);
+        }
+
+        .nav-tab.active {
+            color: var(--accent-blue);
+            border-bottom-color: var(--accent-blue);
+            background-color: var(--bg-tertiary);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            margin-top: 60px;
+            padding: 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            min-height: calc(100vh - 60px);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Common UI Elements */
+        .card {
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        .card-subtitle {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .btn {
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #0056d3;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: #3a3a3a;
+        }
+
+        .btn-success {
+            background-color: var(--accent-green);
+        }
+
+        .btn-danger {
+            background-color: var(--accent-red);
+        }
+
+        .btn-warning {
+            background-color: var(--accent-orange);
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-muted { color: var(--text-secondary); }
+        .mb-0 { margin-bottom: 0; }
+        .mb-1 { margin-bottom: 8px; }
+        .mb-2 { margin-bottom: 16px; }
+        .mb-3 { margin-bottom: 24px; }
+        .mt-2 { margin-top: 16px; }
+        .mt-3 { margin-top: 24px; }
+        .hidden { display: none; }
+        .visible { display: block; }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-tabs {
+                padding: 0 10px;
+            }
+            
+            .nav-tab {
+                padding: 12px 4px;
+                font-size: 12px;
+            }
+            
+            .main-content {
+                padding: 15px;
+                margin-top: 50px;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Tabs -->
+    <nav class="nav-container">
+        <ul class="nav-tabs">
+            <li class="nav-tab active" data-tab="dashboard">Dashboard</li>
+            <li class="nav-tab" data-tab="modules">Modules</li>
+            <li class="nav-tab" data-tab="ports">Ports</li>
+            <li class="nav-tab" data-tab="practice">Practice Exam</li>
+            <li class="nav-tab" data-tab="settings">Settings</li>
+        </ul>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Dashboard Tab -->
+        <section id="dashboard" class="tab-content active">
+            <div class="card">
+                <h1 class="card-title">CompTIA A+ Core 1 Study Dashboard</h1>
+                <p class="text-muted mb-3">Welcome to your personal study companion for the CompTIA A+ Core 1 certification exam.</p>
+                
+                <div class="card mb-3">
+                    <h2 class="card-subtitle">Study Progress Overview</h2>
+                    <div class="text-center">
+                        <p class="text-muted">Progress tracking will appear here after you start taking quizzes.</p>
+                        <button class="btn" onclick="alert('Take your first quiz to see progress!')">Start Studying</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-subtitle">Quick Stats</h2>
+                    <div class="text-center">
+                        <p class="text-muted">Complete some quizzes to see your statistics.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modules Tab -->
+        <section id="modules" class="tab-content">
+            <div class="card">
+                <h1 class="card-title">Study Modules</h1>
+                <p class="text-muted mb-3">Choose a module to start studying specific exam objectives.</p>
+                
+                <div class="card mb-2">
+                    <h3 class="card-subtitle">Module 1: Mobile Devices</h3>
+                    <p class="text-muted mb-2">Install and configure laptops and mobile devices</p>
+                    <button class="btn btn-secondary">Start Module Quiz</button>
+                </div>
+
+                <div class="card mb-2">
+                    <h3 class="card-subtitle">Module 2: Networking</h3>
+                    <p class="text-muted mb-2">Network fundamentals and troubleshooting</p>
+                    <button class="btn btn-secondary">Start Module Quiz</button>
+                </div>
+
+                <div class="card mb-2">
+                    <h3 class="card-subtitle">Module 3: Hardware</h3>
+                    <p class="text-muted mb-2">PC components and troubleshooting</p>
+                    <button class="btn btn-secondary">Start Module Quiz</button>
+                </div>
+
+                <div class="card mb-2">
+                    <h3 class="card-subtitle">Module 4: Virtualization and Cloud Computing</h3>
+                    <p class="text-muted mb-2">Virtual machines and cloud services</p>
+                    <button class="btn btn-secondary">Start Module Quiz</button>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-subtitle">Module 5: Hardware and Network Troubleshooting</h3>
+                    <p class="text-muted mb-2">Advanced troubleshooting techniques</p>
+                    <button class="btn btn-secondary">Start Module Quiz</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ports Tab -->
+        <section id="ports" class="tab-content">
+            <div class="card">
+                <h1 class="card-title">Port Reference</h1>
+                <p class="text-muted mb-3">Study common port numbers, protocols, and services.</p>
+                
+                <div class="form-group">
+                    <input type="text" class="form-input" placeholder="Search ports..." id="portSearch">
+                </div>
+
+                <div class="card">
+                    <h3 class="card-subtitle">Common Ports</h3>
+                    <div class="text-center">
+                        <p class="text-muted">Port reference table will be displayed here.</p>
+                        <button class="btn btn-secondary" onclick="alert('Port quiz coming soon!')">Take Port Quiz</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Practice Exam Tab -->
+        <section id="practice" class="tab-content">
+            <div class="card">
+                <h1 class="card-title">Practice Exam</h1>
+                <p class="text-muted mb-3">Take a full-length practice exam to test your knowledge.</p>
+                
+                <div class="card mb-3">
+                    <h2 class="card-subtitle">Exam Options</h2>
+                    <div class="form-group">
+                        <label class="form-label">Number of Questions:</label>
+                        <select class="form-input">
+                            <option value="10">10 Questions (Quick Review)</option>
+                            <option value="25">25 Questions (Standard)</option>
+                            <option value="50">50 Questions (Extended)</option>
+                            <option value="90" selected>90 Questions (Full Exam)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Time Limit:</label>
+                        <select class="form-input">
+                            <option value="0">No Time Limit</option>
+                            <option value="90" selected>90 Minutes (Standard)</option>
+                            <option value="120">120 Minutes (Extended)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button class="btn btn-success">Start Practice Exam</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings Tab -->
+        <section id="settings" class="tab-content">
+            <div class="card">
+                <h1 class="card-title">Settings</h1>
+                <p class="text-muted mb-3">Customize your study experience.</p>
+                
+                <div class="card mb-2">
+                    <h3 class="card-subtitle">Feedback Options</h3>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <input type="checkbox" checked> Sound Effects
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <input type="checkbox" checked> Vibration (Mobile)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <input type="checkbox" checked> Show Explanations
+                        </label>
+                    </div>
+                </div>
+
+                <div class="card mb-2">
+                    <h3 class="card-subtitle">Quiz Behavior</h3>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <input type="checkbox" checked> Immediate Feedback
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <input type="checkbox"> Shuffle Questions
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <input type="checkbox"> Shuffle Answers
+                        </label>
+                    </div>
+                </div>
+
+                <div class="card mb-3">
+                    <h3 class="card-subtitle">Data Management</h3>
+                    <div class="form-group">
+                        <button class="btn btn-warning">Export Progress</button>
+                        <button class="btn btn-danger" style="margin-left: 10px;">Reset All Progress</button>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <p class="text-muted">Version 1.0.0 - CompTIA A+ Core 1 Study App</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // PHASE 1: Core Data Models and Tab Management
+        
+        // Data Schema Definitions
+        const DataSchemas = {
+            // Question structure for quizzes and exams
+            Question: {
+                id: String,           // Unique identifier
+                text: String,         // Question text
+                options: Array,       // Answer choices
+                correctAnswer: Number, // Index of correct answer
+                explanation: String,  // Why correct answer is right
+                wrongExplanations: Object, // Why other answers are wrong
+                topic: String,        // Exam objective topic
+                subtopic: String,     // Specific subtopic
+                difficulty: String,   // easy, medium, hard
+                acronyms: Object,     // Acronyms used and their full names
+                references: Array     // Related port numbers, services, etc.
+            },
+
+            // Quiz session state
+            QuizState: {
+                currentQuestion: Number,
+                questions: Array,     // Array of Question objects
+                userAnswers: Array,   // User's selected answers
+                score: Number,        // Current score
+                startTime: Date,      // When quiz started
+                isPaused: Boolean,    // Whether quiz is paused
+                timeLimit: Number,    // Time limit in minutes (0 = no limit)
+                mode: String          // 'module', 'practice', 'wrong-answers'
+            },
+
+            // Port information
+            Port: {
+                number: Number,       // Port number
+                protocol: String,     // TCP, UDP, or both
+                service: String,      // Service name
+                description: String,  // What the service does
+                category: String      // Application, Network, Security, etc.
+            },
+
+            // User progress and analytics
+            Progress: {
+                totalQuestions: Number,
+                correctAnswers: Number,
+                wrongAnswers: Number,
+                accuracyByTopic: Object, // {topic: {correct: Number, total: Number}}
+                attemptsByModule: Object, // {module: Number}
+                lastAttempt: Date,
+                streak: Number,        // Current correct answer streak
+                bestStreak: Number,    // Best streak achieved
+                timeSpent: Number      // Total study time in minutes
+            },
+
+            // Acronym definitions
+            Acronym: {
+                short: String,        // Abbreviated form
+                full: String,         // Full name
+                description: String   // Explanation
+            },
+
+            // Settings configuration
+            Settings: {
+                soundEnabled: Boolean,
+                vibrationEnabled: Boolean,
+                showExplanations: Boolean,
+                immediateFeedback: Boolean,
+                shuffleQuestions: Boolean,
+                shuffleAnswers: Boolean,
+                defaultQuizLength: Number,
+                defaultTimeLimit: Number
+            }
+        };
+
+        // Application State Management
+        class AppState {
+            constructor() {
+                this.currentTab = 'dashboard';
+                this.quizState = null;
+                this.settings = this.loadSettings();
+                this.progress = this.loadProgress();
+                this.questions = []; // Will be populated with actual questions
+                this.ports = []; // Will be populated with port data
+                this.acronyms = {}; // Will be populated with acronym definitions
+            }
+
+            // Load settings from localStorage
+            loadSettings() {
+                const defaultSettings = {
+                    soundEnabled: true,
+                    vibrationEnabled: true,
+                    showExplanations: true,
+                    immediateFeedback: true,
+                    shuffleQuestions: false,
+                    shuffleAnswers: false,
+                    defaultQuizLength: 90,
+                    defaultTimeLimit: 90
+                };
+
+                try {
+                    const saved = localStorage.getItem('comptia_settings');
+                    return saved ? { ...defaultSettings, ...JSON.parse(saved) } : defaultSettings;
+                } catch (error) {
+                    console.error('Error loading settings:', error);
+                    return defaultSettings;
+                }
+            }
+
+            // Save settings to localStorage
+            saveSettings() {
+                try {
+                    localStorage.setItem('comptia_settings', JSON.stringify(this.settings));
+                } catch (error) {
+                    console.error('Error saving settings:', error);
+                }
+            }
+
+            // Load progress from localStorage
+            loadProgress() {
+                const defaultProgress = {
+                    totalQuestions: 0,
+                    correctAnswers: 0,
+                    wrongAnswers: 0,
+                    accuracyByTopic: {},
+                    attemptsByModule: {},
+                    lastAttempt: null,
+                    streak: 0,
+                    bestStreak: 0,
+                    timeSpent: 0
+                };
+
+                try {
+                    const saved = localStorage.getItem('comptia_progress');
+                    return saved ? { ...defaultProgress, ...JSON.parse(saved) } : defaultProgress;
+                } catch (error) {
+                    console.error('Error loading progress:', error);
+                    return defaultProgress;
+                }
+            }
+
+            // Save progress to localStorage
+            saveProgress() {
+                try {
+                    localStorage.setItem('comptia_progress', JSON.stringify(this.progress));
+                } catch (error) {
+                    console.error('Error saving progress:', error);
+                }
+            }
+
+            // Switch to a different tab
+            switchTab(tabName) {
+                // Validate tab name
+                const validTabs = ['dashboard', 'modules', 'ports', 'practice', 'settings'];
+                if (!validTabs.includes(tabName)) {
+                    console.error(`Invalid tab name: ${tabName}`);
+                    return;
+                }
+
+                // Update navigation
+                document.querySelectorAll('.nav-tab').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+
+                // Update content
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(tabName).classList.add('active');
+
+                this.currentTab = tabName;
+            }
+
+            // Start a new quiz session
+            startQuiz(questions, options = {}) {
+                this.quizState = {
+                    currentQuestion: 0,
+                    questions: questions,
+                    userAnswers: new Array(questions.length).fill(null),
+                    score: 0,
+                    startTime: new Date(),
+                    isPaused: false,
+                    timeLimit: options.timeLimit || 0,
+                    mode: options.mode || 'practice'
+                };
+            }
+
+            // Update progress with quiz results
+            updateProgress(correct, topic) {
+                this.progress.totalQuestions++;
+                if (correct) {
+                    this.progress.correctAnswers++;
+                    this.progress.streak++;
+                    if (this.progress.streak > this.progress.bestStreak) {
+                        this.progress.bestStreak = this.progress.streak;
+                    }
+                } else {
+                    this.progress.wrongAnswers++;
+                    this.progress.streak = 0;
+                }
+
+                // Update topic-specific accuracy
+                if (!this.progress.accuracyByTopic[topic]) {
+                    this.progress.accuracyByTopic[topic] = { correct: 0, total: 0 };
+                }
+                this.progress.accuracyByTopic[topic].total++;
+                if (correct) {
+                    this.progress.accuracyByTopic[topic].correct++;
+                }
+
+                this.progress.lastAttempt = new Date();
+                this.saveProgress();
+            }
+        }
+
+        // Initialize application state
+        const app = new AppState();
+
+        // Tab Navigation Event Handlers
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click handlers to navigation tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    app.switchTab(tabName);
+                });
+            });
+
+            // Add keyboard navigation support
+            document.addEventListener('keydown', function(event) {
+                if (event.ctrlKey || event.metaKey) {
+                    switch(event.key) {
+                        case '1':
+                            event.preventDefault();
+                            app.switchTab('dashboard');
+                            break;
+                        case '2':
+                            event.preventDefault();
+                            app.switchTab('modules');
+                            break;
+                        case '3':
+                            event.preventDefault();
+                            app.switchTab('ports');
+                            break;
+                        case '4':
+                            event.preventDefault();
+                            app.switchTab('practice');
+                            break;
+                        case '5':
+                            event.preventDefault();
+                            app.switchTab('settings');
+                            break;
+                    }
+                }
+            });
+
+            // Initialize placeholder content
+            console.log('CompTIA A+ Core 1 Study App initialized');
+            console.log('Current tab:', app.currentTab);
+            console.log('Settings loaded:', app.settings);
+            console.log('Progress loaded:', app.progress);
+        });
+
+        // Utility Functions
+        const Utils = {
+            // Format time duration
+            formatDuration(minutes) {
+                if (minutes < 60) {
+                    return `${minutes}m`;
+                }
+                const hours = Math.floor(minutes / 60);
+                const remainingMinutes = minutes % 60;
+                return remainingMinutes > 0 ? `${hours}h ${remainingMinutes}m` : `${hours}h`;
+            },
+
+            // Calculate accuracy percentage
+            calculateAccuracy(correct, total) {
+                if (total === 0) return 0;
+                return Math.round((correct / total) * 100);
+            },
+
+            // Shuffle array (Fisher-Yates algorithm)
+            shuffleArray(array) {
+                const shuffled = [...array];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                return shuffled;
+            },
+
+            // Show user-friendly error message
+            showError(message) {
+                console.error(message);
+                // In a real implementation, this would show a toast notification
+                alert(`Error: ${message}`);
+            },
+
+            // Validate data against schema
+            validateData(data, schema) {
+                // Basic validation - check if all required fields exist
+                for (const [key, type] of Object.entries(schema)) {
+                    if (!(key in data)) {
+                        return { valid: false, message: `Missing required field: ${key}` };
+                    }
+                    // Note: This is a simplified validation. In production, you'd want more thorough type checking.
+                }
+                return { valid: true };
+            }
+        };
+
+        // Export for use in other phases
+        window.AppState = AppState;
+        window.Utils = Utils;
+        window.app = app;
+    </script>
+</body>
+</html>

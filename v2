@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CompTIA A+ Core 1 Study App</title>
     <style>
-        /* PHASE 1: Core Styles - Dark Mode Foundation */
+        /* PHASE 1 & 2: Core Styles - Dark Mode Foundation */
         :root {
             --bg-primary: #0a0a0a;
             --bg-secondary: #1a1a1a;
@@ -167,6 +167,11 @@
             background-color: var(--accent-orange);
         }
 
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         /* Form Elements */
         .form-group {
             margin-bottom: 16px;
@@ -193,6 +198,185 @@
         .form-input:focus {
             outline: none;
             border-color: var(--accent-blue);
+        }
+
+        /* Quiz-specific Styles */
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .question-card {
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .question-text {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .answer-option {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            margin-bottom: 12px;
+            background-color: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .answer-option:hover {
+            border-color: var(--accent-blue);
+            background-color: #2a2a2a;
+        }
+
+        .answer-option.selected {
+            border-color: var(--accent-blue);
+            background-color: rgba(0, 122, 255, 0.1);
+        }
+
+        .answer-option.correct {
+            border-color: var(--accent-green);
+            background-color: rgba(52, 199, 89, 0.1);
+        }
+
+        .answer-option.incorrect {
+            border-color: var(--accent-red);
+            background-color: rgba(255, 59, 48, 0.1);
+        }
+
+        .explanation-card {
+            background-color: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .quiz-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 24px;
+        }
+
+        .quiz-progress {
+            background-color: var(--bg-tertiary);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .quiz-progress-bar {
+            height: 100%;
+            background-color: var(--accent-blue);
+            transition: width 0.3s ease;
+        }
+
+        /* Ports Table Styles */
+        .ports-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        .ports-table th,
+        .ports-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .ports-table th {
+            background-color: var(--bg-tertiary);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .ports-table tr:hover {
+            background-color: var(--bg-tertiary);
+        }
+
+        /* Module Grid */
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .module-card {
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .module-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .module-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--accent-blue);
+        }
+
+        .module-description {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        .module-percentage {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent-green);
+            margin-bottom: 8px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 14px;
         }
 
         /* Utility Classes */
@@ -226,6 +410,29 @@
             .card {
                 padding: 15px;
             }
+
+            .question-text {
+                font-size: 16px;
+            }
+
+            .answer-option {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            .quiz-controls {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .ports-table {
+                font-size: 14px;
+            }
+
+            .ports-table th,
+            .ports-table td {
+                padding: 8px;
+            }
         }
     </style>
 </head>
@@ -249,18 +456,42 @@
                 <h1 class="card-title">CompTIA A+ Core 1 Study Dashboard</h1>
                 <p class="text-muted mb-3">Welcome to your personal study companion for the CompTIA A+ Core 1 certification exam.</p>
                 
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalQuestions">0</div>
+                        <div class="stat-label">Questions Attempted</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="accuracyRate">0%</div>
+                        <div class="stat-label">Overall Accuracy</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="currentStreak">0</div>
+                        <div class="stat-label">Current Streak</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="bestStreak">0</div>
+                        <div class="stat-label">Best Streak</div>
+                    </div>
+                </div>
+
                 <div class="card mb-3">
-                    <h2 class="card-subtitle">Study Progress Overview</h2>
+                    <h2 class="card-subtitle">Quick Start</h2>
                     <div class="text-center">
-                        <p class="text-muted">Progress tracking will appear here after you start taking quizzes.</p>
-                        <button class="btn" onclick="alert('Take your first quiz to see progress!')">Start Studying</button>
+                        <button class="btn" onclick="app.switchTab('modules')">Study by Module</button>
+                        <button class="btn btn-secondary" onclick="app.switchTab('practice')" style="margin-left: 10px;">Practice Exam</button>
+                        <button class="btn btn-secondary" onclick="app.switchTab('ports')" style="margin-left: 10px;">Study Ports</button>
                     </div>
                 </div>
 
                 <div class="card">
-                    <h2 class="card-subtitle">Quick Stats</h2>
-                    <div class="text-center">
-                        <p class="text-muted">Complete some quizzes to see your statistics.</p>
+                    <h2 class="card-subtitle">Exam Overview</h2>
+                    <div class="text-muted">
+                        <p><strong>Exam Code:</strong> CompTIA A+ Core 1 (220-1201)</p>
+                        <p><strong>Duration:</strong> 90 minutes</p>
+                        <p><strong>Questions:</strong> Maximum of 90</p>
+                        <p><strong>Passing Score:</strong> 675 (on a scale of 100-900)</p>
+                        <p><strong>Recommended Experience:</strong> 12 months hands-on IT support experience</p>
                     </div>
                 </div>
             </div>
@@ -272,34 +503,41 @@
                 <h1 class="card-title">Study Modules</h1>
                 <p class="text-muted mb-3">Choose a module to start studying specific exam objectives.</p>
                 
-                <div class="card mb-2">
-                    <h3 class="card-subtitle">Module 1: Mobile Devices</h3>
-                    <p class="text-muted mb-2">Install and configure laptops and mobile devices</p>
-                    <button class="btn btn-secondary">Start Module Quiz</button>
-                </div>
+                <div class="module-grid">
+                    <div class="module-card" onclick="startModuleQuiz('mobile-devices')">
+                        <div class="module-percentage">13%</div>
+                        <div class="module-title">1.0 Mobile Devices</div>
+                        <div class="module-description">Install and configure laptops and mobile devices, hardware replacement techniques, accessories, and network connectivity.</div>
+                        <button class="btn btn-secondary">Start Module Quiz</button>
+                    </div>
 
-                <div class="card mb-2">
-                    <h3 class="card-subtitle">Module 2: Networking</h3>
-                    <p class="text-muted mb-2">Network fundamentals and troubleshooting</p>
-                    <button class="btn btn-secondary">Start Module Quiz</button>
-                </div>
+                    <div class="module-card" onclick="startModuleQuiz('networking')">
+                        <div class="module-percentage">23%</div>
+                        <div class="module-title">2.0 Networking</div>
+                        <div class="module-description">TCP/UDP ports, wireless technologies, network services, configuration concepts, and SOHO networks.</div>
+                        <button class="btn btn-secondary">Start Module Quiz</button>
+                    </div>
 
-                <div class="card mb-2">
-                    <h3 class="card-subtitle">Module 3: Hardware</h3>
-                    <p class="text-muted mb-2">PC components and troubleshooting</p>
-                    <button class="btn btn-secondary">Start Module Quiz</button>
-                </div>
+                    <div class="module-card" onclick="startModuleQuiz('hardware')">
+                        <div class="module-percentage">25%</div>
+                        <div class="module-title">3.0 Hardware</div>
+                        <div class="module-description">Display components, cable types, RAM, storage devices, motherboards, CPUs, and power supplies.</div>
+                        <button class="btn btn-secondary">Start Module Quiz</button>
+                    </div>
 
-                <div class="card mb-2">
-                    <h3 class="card-subtitle">Module 4: Virtualization and Cloud Computing</h3>
-                    <p class="text-muted mb-2">Virtual machines and cloud services</p>
-                    <button class="btn btn-secondary">Start Module Quiz</button>
-                </div>
+                    <div class="module-card" onclick="startModuleQuiz('virtualization')">
+                        <div class="module-percentage">11%</div>
+                        <div class="module-title">4.0 Virtualization & Cloud</div>
+                        <div class="module-description">Virtual machines, hypervisors, desktop virtualization, and cloud computing models (IaaS, SaaS, PaaS).</div>
+                        <button class="btn btn-secondary">Start Module Quiz</button>
+                    </div>
 
-                <div class="card">
-                    <h3 class="card-subtitle">Module 5: Hardware and Network Troubleshooting</h3>
-                    <p class="text-muted mb-2">Advanced troubleshooting techniques</p>
-                    <button class="btn btn-secondary">Start Module Quiz</button>
+                    <div class="module-card" onclick="startModuleQuiz('troubleshooting')">
+                        <div class="module-percentage">28%</div>
+                        <div class="module-title">5.0 Hardware & Network Troubleshooting</div>
+                        <div class="module-description">Diagnose and resolve hardware, network, and connectivity issues using appropriate tools and methodologies.</div>
+                        <button class="btn btn-secondary">Start Module Quiz</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -311,15 +549,30 @@
                 <p class="text-muted mb-3">Study common port numbers, protocols, and services.</p>
                 
                 <div class="form-group">
-                    <input type="text" class="form-input" placeholder="Search ports..." id="portSearch">
+                    <input type="text" class="form-input" placeholder="Search ports..." id="portSearch" onkeyup="filterPorts()">
                 </div>
 
                 <div class="card">
                     <h3 class="card-subtitle">Common Ports</h3>
-                    <div class="text-center">
-                        <p class="text-muted">Port reference table will be displayed here.</p>
-                        <button class="btn btn-secondary" onclick="alert('Port quiz coming soon!')">Take Port Quiz</button>
+                    <div style="overflow-x: auto;">
+                        <table class="ports-table" id="portsTable">
+                            <thead>
+                                <tr>
+                                    <th>Port</th>
+                                    <th>Protocol</th>
+                                    <th>Service</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody id="portsTableBody">
+                                <!-- Ports will be populated by JavaScript -->
+                            </tbody>
+                        </table>
                     </div>
+                </div>
+
+                <div class="text-center mt-3">
+                    <button class="btn" onclick="startPortQuiz()">Take Port Quiz</button>
                 </div>
             </div>
         </section>
@@ -334,7 +587,7 @@
                     <h2 class="card-subtitle">Exam Options</h2>
                     <div class="form-group">
                         <label class="form-label">Number of Questions:</label>
-                        <select class="form-input">
+                        <select class="form-input" id="quizLength">
                             <option value="10">10 Questions (Quick Review)</option>
                             <option value="25">25 Questions (Standard)</option>
                             <option value="50">50 Questions (Extended)</option>
@@ -344,16 +597,22 @@
                     
                     <div class="form-group">
                         <label class="form-label">Time Limit:</label>
-                        <select class="form-input">
+                        <select class="form-input" id="timeLimit">
                             <option value="0">No Time Limit</option>
                             <option value="90" selected>90 Minutes (Standard)</option>
                             <option value="120">120 Minutes (Extended)</option>
                         </select>
                     </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <input type="checkbox" id="shuffleQuestions"> Shuffle Questions
+                        </label>
+                    </div>
                 </div>
 
                 <div class="text-center">
-                    <button class="btn btn-success">Start Practice Exam</button>
+                    <button class="btn btn-success" onclick="startPracticeExam()">Start Practice Exam</button>
                 </div>
             </div>
         </section>
@@ -368,17 +627,17 @@
                     <h3 class="card-subtitle">Feedback Options</h3>
                     <div class="form-group">
                         <label class="form-label">
-                            <input type="checkbox" checked> Sound Effects
+                            <input type="checkbox" id="soundEnabled" checked> Sound Effects
                         </label>
                     </div>
                     <div class="form-group">
                         <label class="form-label">
-                            <input type="checkbox" checked> Vibration (Mobile)
+                            <input type="checkbox" id="vibrationEnabled" checked> Vibration (Mobile)
                         </label>
                     </div>
                     <div class="form-group">
                         <label class="form-label">
-                            <input type="checkbox" checked> Show Explanations
+                            <input type="checkbox" id="showExplanations" checked> Show Explanations
                         </label>
                     </div>
                 </div>
@@ -387,17 +646,12 @@
                     <h3 class="card-subtitle">Quiz Behavior</h3>
                     <div class="form-group">
                         <label class="form-label">
-                            <input type="checkbox" checked> Immediate Feedback
+                            <input type="checkbox" id="immediateFeedback" checked> Immediate Feedback
                         </label>
                     </div>
                     <div class="form-group">
                         <label class="form-label">
-                            <input type="checkbox"> Shuffle Questions
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">
-                            <input type="checkbox"> Shuffle Answers
+                            <input type="checkbox" id="shuffleAnswers"> Shuffle Answers
                         </label>
                     </div>
                 </div>
@@ -405,8 +659,8 @@
                 <div class="card mb-3">
                     <h3 class="card-subtitle">Data Management</h3>
                     <div class="form-group">
-                        <button class="btn btn-warning">Export Progress</button>
-                        <button class="btn btn-danger" style="margin-left: 10px;">Reset All Progress</button>
+                        <button class="btn btn-warning" onclick="exportProgress()">Export Progress</button>
+                        <button class="btn btn-danger" onclick="resetProgress()" style="margin-left: 10px;">Reset All Progress</button>
                     </div>
                 </div>
 
@@ -415,70 +669,504 @@
                 </div>
             </div>
         </section>
+
+        <!-- Quiz Interface (Hidden by default) -->
+        <section id="quiz" class="tab-content">
+            <div class="quiz-container">
+                <div class="card">
+                    <div class="quiz-progress">
+                        <div class="quiz-progress-bar" id="quizProgressBar" style="width: 0%"></div>
+                    </div>
+                    
+                    <div class="question-card" id="questionCard">
+                        <div class="text-center" id="quizLoading">
+                            <p class="text-muted">Loading quiz...</p>
+                        </div>
+                        
+                        <div id="quizContent" class="hidden">
+                            <div class="question-text" id="questionText"></div>
+                            <div id="answerOptions"></div>
+                            <div id="explanationArea" class="hidden"></div>
+                            
+                            <div class="quiz-controls">
+                                <button class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()" disabled>Previous</button>
+                                <div>
+                                    <span id="questionCounter">1 of 10</span>
+                                    <span id="timerDisplay" class="text-muted" style="margin-left: 20px;"></span>
+                                </div>
+                                <button class="btn" id="nextBtn" onclick="nextQuestion()" disabled>Next</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Results (Hidden by default) -->
+        <section id="results" class="tab-content">
+            <div class="card">
+                <h1 class="card-title">Quiz Results</h1>
+                <div class="text-center">
+                    <div class="stat-card" style="max-width: 300px; margin: 0 auto 20px;">
+                        <div class="stat-value" id="finalScore">0%</div>
+                        <div class="stat-label" id="scoreBreakdown">0 correct out of 0</div>
+                    </div>
+                    
+                    <div class="card mb-3">
+                        <h3 class="card-subtitle">Performance by Topic</h3>
+                        <div id="topicPerformance"></div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button class="btn" onclick="retakeQuiz()">Retake Quiz</button>
+                        <button class="btn btn-secondary" onclick="reviewWrongAnswers()" id="reviewBtn" style="margin-left: 10px;">Review Wrong Answers</button>
+                        <button class="btn btn-secondary" onclick="app.switchTab('modules')" style="margin-left: 10px;">Back to Modules</button>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <script>
-        // PHASE 1: Core Data Models and Tab Management
+        // PHASE 1 & 2: Core Application Data and Logic
         
-        // Data Schema Definitions
-        const DataSchemas = {
-            // Question structure for quizzes and exams
-            Question: {
-                id: String,           // Unique identifier
-                text: String,         // Question text
-                options: Array,       // Answer choices
-                correctAnswer: Number, // Index of correct answer
-                explanation: String,  // Why correct answer is right
-                wrongExplanations: Object, // Why other answers are wrong
-                topic: String,        // Exam objective topic
-                subtopic: String,     // Specific subtopic
-                difficulty: String,   // easy, medium, hard
-                acronyms: Object,     // Acronyms used and their full names
-                references: Array     // Related port numbers, services, etc.
+        // Exam Data Structure - Based on PDF Content
+        const ExamData = {
+            // Common Ports and Protocols
+            ports: [
+                { number: 20, protocol: 'TCP', service: 'FTP Data', description: 'File Transfer Protocol - Data transfer', category: 'Application' },
+                { number: 21, protocol: 'TCP', service: 'FTP Control', description: 'File Transfer Protocol - Control/commands', category: 'Application' },
+                { number: 22, protocol: 'TCP', service: 'SSH', description: 'Secure Shell - Encrypted remote administration', category: 'Security' },
+                { number: 23, protocol: 'TCP', service: 'Telnet', description: 'Unencrypted remote administration (deprecated)', category: 'Application' },
+                { number: 25, protocol: 'TCP', service: 'SMTP', description: 'Simple Mail Transfer Protocol - Sending email', category: 'Application' },
+                { number: 53, protocol: 'TCP/UDP', service: 'DNS', description: 'Domain Name System - Name resolution', category: 'Network' },
+                { number: 67, protocol: 'UDP', service: 'DHCP Server', description: 'Dynamic Host Configuration Protocol - Server side', category: 'Network' },
+                { number: 68, protocol: 'UDP', service: 'DHCP Client', description: 'Dynamic Host Configuration Protocol - Client side', category: 'Network' },
+                { number: 80, protocol: 'TCP', service: 'HTTP', description: 'Hypertext Transfer Protocol - Web traffic', category: 'Application' },
+                { number: 110, protocol: 'TCP', service: 'POP3', description: 'Post Office Protocol v3 - Retrieving email', category: 'Application' },
+                { number: 143, protocol: 'TCP', service: 'IMAP', description: 'Internet Message Access Protocol - Email retrieval', category: 'Application' },
+                { number: 443, protocol: 'TCP', service: 'HTTPS', description: 'HTTP Secure - Encrypted web traffic', category: 'Security' },
+                { number: 993, protocol: 'TCP', service: 'IMAPS', description: 'IMAP Secure - Encrypted IMAP', category: 'Security' },
+                { number: 995, protocol: 'TCP', service: 'POP3S', description: 'POP3 Secure - Encrypted POP3', category: 'Security' },
+                { number: 3389, protocol: 'TCP', service: 'RDP', description: 'Remote Desktop Protocol - Windows remote desktop', category: 'Application' },
+                { number: 389, protocol: 'TCP/UDP', service: 'LDAP', description: 'Lightweight Directory Access Protocol', category: 'Application' },
+                { number: 445, protocol: 'TCP', service: 'SMB/CIFS', description: 'Server Message Block / Common Internet File System', category: 'Application' },
+                { number: 137, protocol: 'UDP', service: 'NetBIOS Name', description: 'Network Basic Input/Output System - Name service', category: 'Network' },
+                { number: 138, protocol: 'UDP', service: 'NetBIOS Datagram', description: 'NetBIOS Datagram service', category: 'Network' },
+                { number: 139, protocol: 'TCP', service: 'NetBIOS Session', description: 'NetBIOS Session service', category: 'Network' }
+            ],
+
+            // Important Acronyms
+            acronyms: {
+                'TCP': 'Transmission Control Protocol',
+                'UDP': 'User Datagram Protocol',
+                'IP': 'Internet Protocol',
+                'HTTP': 'Hypertext Transfer Protocol',
+                'HTTPS': 'Hypertext Transfer Protocol Secure',
+                'FTP': 'File Transfer Protocol',
+                'SSH': 'Secure Shell',
+                'SMTP': 'Simple Mail Transfer Protocol',
+                'DNS': 'Domain Name System',
+                'DHCP': 'Dynamic Host Configuration Protocol',
+                'POP3': 'Post Office Protocol version 3',
+                'IMAP': 'Internet Message Access Protocol',
+                'LDAP': 'Lightweight Directory Access Protocol',
+                'SMB': 'Server Message Block',
+                'CIFS': 'Common Internet File System',
+                'RDP': 'Remote Desktop Protocol',
+                'NFC': 'Near Field Communication',
+                'GPS': 'Global Positioning System',
+                'SIM': 'Subscriber Identity Module',
+                'MDM': 'Mobile Device Management',
+                'BYOD': 'Bring Your Own Device',
+                'COPE': 'Corporate Owned, Personally Enabled',
+                'CYOD': 'Choose Your Own Device',
+                'SOHO': 'Small Office/Home Office',
+                'LAN': 'Local Area Network',
+                'WAN': 'Wide Area Network',
+                'PAN': 'Personal Area Network',
+                'WLAN': 'Wireless Local Area Network',
+                'SSID': 'Service Set Identifier',
+                'VPN': 'Virtual Private Network',
+                'VLAN': 'Virtual Local Area Network',
+                'PoE': 'Power over Ethernet',
+                'NIC': 'Network Interface Card',
+                'MAC': 'Media Access Control',
+                'IPSec': 'Internet Protocol Security',
+                'TLS': 'Transport Layer Security',
+                'SSL': 'Secure Sockets Layer',
+                'APIPA': 'Automatic Private IP Addressing',
+                'NAT': 'Network Address Translation',
+                'PAT': 'Port Address Translation',
+                'IPv4': 'Internet Protocol version 4',
+                'IPv6': 'Internet Protocol version 6',
+                'RAM': 'Random Access Memory',
+                'CPU': 'Central Processing Unit',
+                'GPU': 'Graphics Processing Unit',
+                'HDD': 'Hard Disk Drive',
+                'SSD': 'Solid State Drive',
+                'NVMe': 'Non-Volatile Memory Express',
+                'SATA': 'Serial Advanced Technology Attachment',
+                'PCIe': 'Peripheral Component Interconnect Express',
+                'BIOS': 'Basic Input/Output System',
+                'UEFI': 'Unified Extensible Firmware Interface',
+                'TPM': 'Trusted Platform Module',
+                'HSM': 'Hardware Security Module',
+                'RAID': 'Redundant Array of Independent Disks',
+                'LCD': 'Liquid Crystal Display',
+                'OLED': 'Organic Light-Emitting Diode',
+                'LED': 'Light-Emitting Diode',
+                'HDMI': 'High-Definition Multimedia Interface',
+                'DVI': 'Digital Visual Interface',
+                'VGA': 'Video Graphics Array',
+                'USB': 'Universal Serial Bus'
             },
 
-            // Quiz session state
+            // Sample Questions Database
+            questions: {
+                'mobile-devices': [
+                    {
+                        id: 'md001',
+                        text: 'Which type of battery technology is commonly used in modern laptops and does NOT suffer from the memory effect?',
+                        options: [
+                            'Nickel-Cadmium (NiCd)',
+                            'Nickel-Metal Hydride (NiMH)',
+                            'Lithium-Ion (Li-ion)',
+                            'Lead-Acid'
+                        ],
+                        correctAnswer: 2,
+                        explanation: 'Lithium-Ion (Li-ion) and Lithium-Ion polymer (LiPo) batteries are commonly used in modern laptops and mobile devices. They do not suffer from the memory effect, which was a limitation of older Nickel-Cadmium batteries.',
+                        wrongExplanations: {
+                            0: 'Nickel-Cadmium (NiCd) batteries suffer from memory effect and are rarely used in modern laptops.',
+                            1: 'Nickel-Metal Hydride (NiMH) batteries have reduced memory effect but are not commonly used in laptops.',
+                            3: 'Lead-Acid batteries are too heavy and large for laptop use.'
+                        },
+                        topic: 'Mobile Devices',
+                        subtopic: 'Hardware Replacement',
+                        difficulty: 'easy',
+                        acronyms: {
+                            'Li-ion': 'Lithium-Ion',
+                            'LiPo': 'Lithium-Ion polymer',
+                            'NiCd': 'Nickel-Cadmium',
+                            'NiMH': 'Nickel-Metal Hydride'
+                        }
+                    },
+                    {
+                        id: 'md002',
+                        text: 'What is the maximum effective range of Near Field Communication (NFC) for data transfer?',
+                        options: [
+                            '10 meters',
+                            '4 centimeters',
+                            '100 meters',
+                            '1 kilometer'
+                        ],
+                        correctAnswer: 1,
+                        explanation: 'Near Field Communication (NFC) has a very short range of approximately 4 centimeters (1.5 inches) or less. This short range makes it ideal for secure payments and authentication applications.',
+                        wrongExplanations: {
+                            0: '10 meters is the typical range of Bluetooth, not NFC.',
+                            2: '100 meters is the range of some Wi-Fi networks.',
+                            3: '1 kilometer is far beyond the range of any personal wireless technology.'
+                        },
+                        topic: 'Mobile Devices',
+                        subtopic: 'Accessories and Connectivity',
+                        difficulty: 'easy',
+                        acronyms: {
+                            'NFC': 'Near Field Communication'
+                        }
+                    },
+                    {
+                        id: 'md003',
+                        text: 'Which cellular technology generation was launched worldwide in 2020 and offers significant performance improvements?',
+                        options: [
+                            '3G',
+                            '4G LTE',
+                            '5G',
+                            '2G'
+                        ],
+                        correctAnswer: 2,
+                        explanation: '5G (Fifth Generation) cellular networking was launched worldwide in 2020. It offers significant performance improvements with theoretical speeds up to 10 gigabits per second and has major implications for IoT devices.',
+                        wrongExplanations: {
+                            0: '3G (Third Generation) was introduced in 1998 and offers much slower speeds.',
+                            1: '4G LTE (Long Term Evolution) was introduced before 2020 and offers good speeds but not as fast as 5G.',
+                            3: '2G is an older, much slower cellular technology.'
+                        },
+                        topic: 'Mobile Devices',
+                        subtopic: 'Network Connectivity',
+                        difficulty: 'medium',
+                        acronyms: {
+                            '5G': 'Fifth Generation',
+                            'LTE': 'Long Term Evolution',
+                            'IoT': 'Internet of Things'
+                        }
+                    },
+                    {
+                        id: 'md004',
+                        text: 'In a BYOD (Bring Your Own Device) environment, what is the primary security concern?',
+                        options: [
+                            'Devices are too expensive',
+                            'Personal and corporate data coexist on the same device',
+                            'Devices are always stolen',
+                            'Battery life is insufficient'
+                        ],
+                        correctAnswer: 1,
+                        explanation: 'The primary security concern in BYOD environments is that personal and corporate data coexist on the same device. This makes it difficult to secure corporate data and raises questions about what happens to data when a device is sold or traded.',
+                        wrongExplanations: {
+                            0: 'Device cost is a financial consideration, not a security concern.',
+                            2: 'While device theft can occur, it\'s not the primary concern specific to BYOD.',
+                            3: 'Battery life is a usability issue, not a security concern.'
+                        },
+                        topic: 'Mobile Devices',
+                        subtopic: 'Mobile Device Management',
+                        difficulty: 'medium',
+                        acronyms: {
+                            'BYOD': 'Bring Your Own Device'
+                        }
+                    }
+                ],
+
+                'networking': [
+                    {
+                        id: 'net001',
+                        text: 'Which port does Secure Shell (SSH) use for remote administration?',
+                        options: ['Port 21', 'Port 22', 'Port 23', 'Port 25'],
+                        correctAnswer: 1,
+                        explanation: 'SSH (Secure Shell) uses port 22 for secure remote administration. It provides encrypted communication, unlike Telnet which uses port 23 and sends data in plain text.',
+                        wrongExplanations: {
+                            0: 'Port 21 is used by FTP (File Transfer Protocol).',
+                            2: 'Port 23 is used by Telnet (unencrypted remote administration).',
+                            3: 'Port 25 is used by SMTP (Simple Mail Transfer Protocol).'
+                        },
+                        topic: 'Networking',
+                        subtopic: 'TCP/UDP Ports',
+                        difficulty: 'easy',
+                        acronyms: {
+                            'SSH': 'Secure Shell',
+                            'FTP': 'File Transfer Protocol',
+                            'SMTP': 'Simple Mail Transfer Protocol'
+                        }
+                    },
+                    {
+                        id: 'net002',
+                        text: 'What is the primary difference between TCP and UDP?',
+                        options: [
+                            'TCP is faster than UDP',
+                            'TCP provides reliable, ordered delivery while UDP does not',
+                            'UDP requires a connection while TCP does not',
+                            'They are identical protocols'
+                        ],
+                        correctAnswer: 1,
+                        explanation: 'TCP (Transmission Control Protocol) provides reliable, ordered delivery of data with acknowledgments and retransmission. UDP (User Datagram Protocol) is connectionless and does not guarantee delivery or order.',
+                        wrongExplanations: {
+                            0: 'TCP is generally slower than UDP due to overhead for reliability.',
+                            2: 'This is backwards - TCP requires a connection (connection-oriented) while UDP is connectionless.',
+                            3: 'TCP and UDP have significant differences in functionality and use cases.'
+                        },
+                        topic: 'Networking',
+                        subtopic: 'Protocols',
+                        difficulty: 'medium',
+                        acronyms: {
+                            'TCP': 'Transmission Control Protocol',
+                            'UDP': 'User Datagram Protocol'
+                        }
+                    },
+                    {
+                        id: 'net003',
+                        text: 'Which frequency bands are commonly used by 802.11 Wi-Fi networks?',
+                        options: [
+                            '2.4GHz only',
+                            '5GHz only',
+                            '2.4GHz, 5GHz, and 6GHz',
+                            '900MHz only'
+                        ],
+                        correctAnswer: 2,
+                        explanation: 'Modern 802.11 Wi-Fi networks commonly use 2.4GHz, 5GHz, and the newer 6GHz bands. Different bands offer different characteristics: 2.4GHz has better range but more interference, while 5GHz and 6GHz offer faster speeds but shorter range.',
+                        wrongExplanations: {
+                            0: '2.4GHz is common but not the only frequency used.',
+                            1: '5GHz is common but not the only frequency used.',
+                            3: '900MHz is not a standard Wi-Fi frequency band.'
+                        },
+                        topic: 'Networking',
+                        subtopic: 'Wireless Technologies',
+                        difficulty: 'easy',
+                        acronyms: {
+                            'Wi-Fi': 'Wireless Fidelity',
+                            'GHz': 'Gigahertz'
+                        }
+                    },
+                    {
+                        id: 'net004',
+                        text: 'What is the purpose of DHCP in a network?',
+                        options: [
+                            'To encrypt network traffic',
+                            'To automatically assign IP addresses to devices',
+                            'To route traffic between networks',
+                            'To convert domain names to IP addresses'
+                        ],
+                        correctAnswer: 1,
+                        explanation: 'DHCP (Dynamic Host Configuration Protocol) automatically assigns IP addresses and other network configuration information (subnet mask, default gateway, DNS servers) to devices on a network.',
+                        wrongExplanations: {
+                            0: 'Encryption is handled by protocols like IPsec or TLS, not DHCP.',
+                            2: 'Routing between networks is handled by routers using routing protocols.',
+                            3: 'Domain name to IP address conversion is handled by DNS.'
+                        },
+                        topic: 'Networking',
+                        subtopic: 'Network Services',
+                        difficulty: 'easy',
+                        acronyms: {
+                            'DHCP': 'Dynamic Host Configuration Protocol',
+                            'IP': 'Internet Protocol',
+                            'DNS': 'Domain Name System',
+                            'IPsec': 'Internet Protocol Security',
+                            'TLS': 'Transport Layer Security'
+                        }
+                    }
+                ],
+
+                'hardware': [
+                    {
+                        id: 'hw001',
+                        text: 'What type of memory module is commonly used in laptops?',
+                        options: ['DIMM', 'SO-DIMM', 'SIMM', 'RIMM'],
+                        correctAnswer: 1,
+                        explanation: 'SO-DIMM (Small Outline Dual In-line Memory Module) is the standard memory form factor used in laptops and mobile devices due to its smaller size compared to desktop DIMMs.',
+                        wrongExplanations: {
+                            0: 'DIMM (Dual In-line Memory Module) is used in desktop computers, not laptops.',
+                            2: 'SIMM (Single In-line Memory Module) is an older memory technology no longer used.',
+                            3: 'RIMM (Rambus In-line Memory Module) was a proprietary memory technology that is now obsolete.'
+                        },
+                        topic: 'Hardware',
+                        subtopic: 'Memory',
+                        difficulty: 'easy',
+                        acronyms: {
+                            'SO-DIMM': 'Small Outline Dual In-line Memory Module',
+                            'DIMM': 'Dual In-line Memory Module',
+                            'SIMM': 'Single In-line Memory Module'
+                        }
+                    },
+                    {
+                        id: 'hw002',
+                        text: 'Which storage interface offers the fastest performance?',
+                        options: ['SATA III', 'NVMe', 'SAS', 'IDE'],
+                        correctAnswer: 1,
+                        explanation: 'NVMe (Non-volatile Memory Express) offers the fastest storage performance because it connects directly to the PCIe bus, bypassing the slower SATA interface bottleneck and enabling much higher speeds.',
+                        wrongExplanations: {
+                            0: 'SATA III has a maximum speed of 6 Gbps, which is much slower than NVMe.',
+                            2: 'SAS (Serial Attached SCSI) is fast but typically slower than NVMe for consumer use.',
+                            3: 'IDE (Integrated Drive Electronics) is an older, much slower interface.'
+                        },
+                        topic: 'Hardware',
+                        subtopic: 'Storage Devices',
+                        difficulty: 'medium',
+                        acronyms: {
+                            'NVMe': 'Non-volatile Memory Express',
+                            'SATA': 'Serial Advanced Technology Attachment',
+                            'SAS': 'Serial Attached SCSI',
+                            'IDE': 'Integrated Drive Electronics',
+                            'PCIe': 'Peripheral Component Interconnect Express'
+                        }
+                    }
+                ],
+
+                'virtualization': [
+                    {
+                        id: 'virt001',
+                        text: 'In cloud computing, what does IaaS stand for?',
+                        options: [
+                            'Internet as a Service',
+                            'Infrastructure as a Service',
+                            'Integration as a Service',
+                            'Intelligence as a Service'
+                        ],
+                        correctAnswer: 1,
+                        explanation: 'IaaS (Infrastructure as a Service) provides virtualized computing resources over the internet, including servers, storage, and networking. Examples include Amazon EC2 and Microsoft Azure.',
+                        wrongExplanations: {
+                            0: 'Internet as a Service is not a standard cloud computing model.',
+                            2: 'Integration as a Service is not a standard cloud computing model.',
+                            3: 'Intelligence as a Service is not a standard cloud computing model.'
+                        },
+                        topic: 'Virtualization and Cloud Computing',
+                        subtopic: 'Cloud Models',
+                        difficulty: 'easy',
+                        acronyms: {
+                            'IaaS': 'Infrastructure as a Service'
+                        }
+                    }
+                ],
+
+                'troubleshooting': [
+                    {
+                        id: 'trbl001',
+                        text: 'According to the CompTIA troubleshooting methodology, what should you do AFTER establishing a theory of probable cause?',
+                        options: [
+                            'Document findings',
+                            'Test the theory',
+                            'Verify system functionality',
+                            'Implement preventive measures'
+                        ],
+                        correctAnswer: 1,
+                        explanation: 'After establishing a theory of probable cause (questioning the obvious), the next step is to test the theory to determine the cause. If the theory is confirmed, you proceed to establish a plan of action.',
+                        wrongExplanations: {
+                            0: 'Documenting findings comes at the end of the troubleshooting process.',
+                            2: 'Verifying system functionality comes after implementing the solution.',
+                            3: 'Implementing preventive measures is part of the final verification step.'
+                        },
+                        topic: 'Hardware and Network Troubleshooting',
+                        subtopic: 'Troubleshooting Methodology',
+                        difficulty: 'medium',
+                        acronyms: {}
+                    }
+                ]
+            }
+        };
+
+        // PHASE 1: Core Data Models (from previous implementation)
+        const DataSchemas = {
+            Question: {
+                id: String,
+                text: String,
+                options: Array,
+                correctAnswer: Number,
+                explanation: String,
+                wrongExplanations: Object,
+                topic: String,
+                subtopic: String,
+                difficulty: String,
+                acronyms: Object,
+                references: Array
+            },
             QuizState: {
                 currentQuestion: Number,
-                questions: Array,     // Array of Question objects
-                userAnswers: Array,   // User's selected answers
-                score: Number,        // Current score
-                startTime: Date,      // When quiz started
-                isPaused: Boolean,    // Whether quiz is paused
-                timeLimit: Number,    // Time limit in minutes (0 = no limit)
-                mode: String          // 'module', 'practice', 'wrong-answers'
+                questions: Array,
+                userAnswers: Array,
+                score: Number,
+                startTime: Date,
+                isPaused: Boolean,
+                timeLimit: Number,
+                mode: String
             },
-
-            // Port information
             Port: {
-                number: Number,       // Port number
-                protocol: String,     // TCP, UDP, or both
-                service: String,      // Service name
-                description: String,  // What the service does
-                category: String      // Application, Network, Security, etc.
+                number: Number,
+                protocol: String,
+                service: String,
+                description: String,
+                category: String
             },
-
-            // User progress and analytics
             Progress: {
                 totalQuestions: Number,
                 correctAnswers: Number,
                 wrongAnswers: Number,
-                accuracyByTopic: Object, // {topic: {correct: Number, total: Number}}
-                attemptsByModule: Object, // {module: Number}
+                accuracyByTopic: Object,
+                attemptsByModule: Object,
                 lastAttempt: Date,
-                streak: Number,        // Current correct answer streak
-                bestStreak: Number,    // Best streak achieved
-                timeSpent: Number      // Total study time in minutes
+                streak: Number,
+                bestStreak: Number,
+                timeSpent: Number
             },
-
-            // Acronym definitions
             Acronym: {
-                short: String,        // Abbreviated form
-                full: String,         // Full name
-                description: String   // Explanation
+                short: String,
+                full: String,
+                description: String
             },
-
-            // Settings configuration
             Settings: {
                 soundEnabled: Boolean,
                 vibrationEnabled: Boolean,
@@ -498,12 +1186,11 @@
                 this.quizState = null;
                 this.settings = this.loadSettings();
                 this.progress = this.loadProgress();
-                this.questions = []; // Will be populated with actual questions
-                this.ports = []; // Will be populated with port data
-                this.acronyms = {}; // Will be populated with acronym definitions
+                this.questions = ExamData.questions;
+                this.ports = ExamData.ports;
+                this.acronyms = ExamData.acronyms;
             }
 
-            // Load settings from localStorage
             loadSettings() {
                 const defaultSettings = {
                     soundEnabled: true,
@@ -525,7 +1212,6 @@
                 }
             }
 
-            // Save settings to localStorage
             saveSettings() {
                 try {
                     localStorage.setItem('comptia_settings', JSON.stringify(this.settings));
@@ -534,7 +1220,6 @@
                 }
             }
 
-            // Load progress from localStorage
             loadProgress() {
                 const defaultProgress = {
                     totalQuestions: 0,
@@ -545,7 +1230,8 @@
                     lastAttempt: null,
                     streak: 0,
                     bestStreak: 0,
-                    timeSpent: 0
+                    timeSpent: 0,
+                    wrongAnswersList: []
                 };
 
                 try {
@@ -557,7 +1243,6 @@
                 }
             }
 
-            // Save progress to localStorage
             saveProgress() {
                 try {
                     localStorage.setItem('comptia_progress', JSON.stringify(this.progress));
@@ -566,31 +1251,31 @@
                 }
             }
 
-            // Switch to a different tab
             switchTab(tabName) {
-                // Validate tab name
-                const validTabs = ['dashboard', 'modules', 'ports', 'practice', 'settings'];
+                const validTabs = ['dashboard', 'modules', 'ports', 'practice', 'settings', 'quiz', 'results'];
                 if (!validTabs.includes(tabName)) {
                     console.error(`Invalid tab name: ${tabName}`);
                     return;
                 }
 
-                // Update navigation
                 document.querySelectorAll('.nav-tab').forEach(tab => {
                     tab.classList.remove('active');
                 });
-                document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+                
+                const targetTab = document.querySelector(`[data-tab="${tabName}"]`);
+                if (targetTab) {
+                    targetTab.classList.add('active');
+                }
 
-                // Update content
                 document.querySelectorAll('.tab-content').forEach(content => {
                     content.classList.remove('active');
                 });
                 document.getElementById(tabName).classList.add('active');
 
                 this.currentTab = tabName;
+                this.updateDashboard();
             }
 
-            // Start a new quiz session
             startQuiz(questions, options = {}) {
                 this.quizState = {
                     currentQuestion: 0,
@@ -600,12 +1285,24 @@
                     startTime: new Date(),
                     isPaused: false,
                     timeLimit: options.timeLimit || 0,
-                    mode: options.mode || 'practice'
+                    mode: options.mode || 'practice',
+                    showExplanations: options.showExplanations !== false,
+                    immediateFeedback: options.immediateFeedback !== false,
+                    shuffleAnswers: options.shuffleAnswers || false,
+                    wrongAnswersOnly: options.wrongAnswersOnly || false
                 };
+
+                if (this.quizState.shuffleAnswers) {
+                    this.quizState.questions.forEach(question => {
+                        // Store original correct answer and shuffle
+                        const correctAnswerText = question.options[question.correctAnswer];
+                        question.options = Utils.shuffleArray(question.options);
+                        question.correctAnswer = question.options.indexOf(correctAnswerText);
+                    });
+                }
             }
 
-            // Update progress with quiz results
-            updateProgress(correct, topic) {
+            updateProgress(correct, topic, questionId = null) {
                 this.progress.totalQuestions++;
                 if (correct) {
                     this.progress.correctAnswers++;
@@ -616,9 +1313,11 @@
                 } else {
                     this.progress.wrongAnswers++;
                     this.progress.streak = 0;
+                    if (questionId) {
+                        this.progress.wrongAnswersList.push(questionId);
+                    }
                 }
 
-                // Update topic-specific accuracy
                 if (!this.progress.accuracyByTopic[topic]) {
                     this.progress.accuracyByTopic[topic] = { correct: 0, total: 0 };
                 }
@@ -629,15 +1328,467 @@
 
                 this.progress.lastAttempt = new Date();
                 this.saveProgress();
+                this.updateDashboard();
+            }
+
+            updateDashboard() {
+                const totalQuestionsEl = document.getElementById('totalQuestions');
+                const accuracyRateEl = document.getElementById('accuracyRate');
+                const currentStreakEl = document.getElementById('currentStreak');
+                const bestStreakEl = document.getElementById('bestStreak');
+
+                if (totalQuestionsEl) {
+                    totalQuestionsEl.textContent = this.progress.totalQuestions;
+                }
+                if (accuracyRateEl) {
+                    const accuracy = this.progress.totalQuestions > 0 ? 
+                        Math.round((this.progress.correctAnswers / this.progress.totalQuestions) * 100) : 0;
+                    accuracyRateEl.textContent = `${accuracy}%`;
+                }
+                if (currentStreakEl) {
+                    currentStreakEl.textContent = this.progress.streak;
+                }
+                if (bestStreakEl) {
+                    bestStreakEl.textContent = this.progress.bestStreak;
+                }
             }
         }
 
         // Initialize application state
         const app = new AppState();
 
-        // Tab Navigation Event Handlers
+        // PHASE 3: Quiz Engine Implementation
+        
+        let currentQuiz = null;
+        let quizTimer = null;
+
+        function startModuleQuiz(moduleId) {
+            const questions = app.questions[moduleId] || [];
+            if (questions.length === 0) {
+                alert('No questions available for this module yet.');
+                return;
+            }
+
+            const settings = {
+                timeLimit: 0, // No time limit for module quizzes
+                mode: 'module',
+                showExplanations: app.settings.showExplanations,
+                immediateFeedback: app.settings.immediateFeedback,
+                shuffleAnswers: app.settings.shuffleAnswers
+            };
+
+            startQuiz(questions, settings);
+        }
+
+        function startPracticeExam() {
+            const quizLength = parseInt(document.getElementById('quizLength').value);
+            const timeLimit = parseInt(document.getElementById('timeLimit').value);
+            const shuffleQuestions = document.getElementById('shuffleQuestions').checked;
+
+            // Combine all questions from all modules
+            let allQuestions = [];
+            Object.values(app.questions).forEach(moduleQuestions => {
+                allQuestions = allQuestions.concat(moduleQuestions);
+            });
+
+            // Shuffle if requested
+            if (shuffleQuestions) {
+                allQuestions = Utils.shuffleArray(allQuestions);
+            }
+
+            // Limit to requested length
+            allQuestions = allQuestions.slice(0, quizLength);
+
+            const settings = {
+                timeLimit: timeLimit,
+                mode: 'practice',
+                showExplanations: app.settings.showExplanations,
+                immediateFeedback: app.settings.immediateFeedback,
+                shuffleAnswers: app.settings.shuffleAnswers
+            };
+
+            startQuiz(allQuestions, settings);
+        }
+
+        function startPortQuiz() {
+            // Create port-related questions
+            const portQuestions = app.ports.slice(0, 10).map(port => ({
+                id: `port_${port.number}`,
+                text: `Which service commonly uses port ${port.number}?`,
+                options: [
+                    port.service,
+                    app.ports[Math.floor(Math.random() * app.ports.length)].service,
+                    app.ports[Math.floor(Math.random() * app.ports.length)].service,
+                    app.ports[Math.floor(Math.random() * app.ports.length)].service
+                ],
+                correctAnswer: 0,
+                explanation: `Port ${port.number} is commonly used by ${port.service} (${port.service}) for ${port.description}.`,
+                wrongExplanations: {},
+                topic: 'Networking',
+                subtopic: 'Ports',
+                difficulty: 'medium',
+                acronyms: {}
+            }));
+
+            const settings = {
+                timeLimit: 0,
+                mode: 'port-quiz',
+                showExplanations: app.settings.showExplanations,
+                immediateFeedback: app.settings.immediateFeedback
+            };
+
+            startQuiz(portQuestions, settings);
+        }
+
+        function startQuiz(questions, settings) {
+            app.startQuiz(questions, settings);
+            currentQuiz = app.quizState;
+            
+            app.switchTab('quiz');
+            
+            // Show loading state briefly
+            document.getElementById('quizLoading').classList.remove('hidden');
+            document.getElementById('quizContent').classList.add('hidden');
+            
+            setTimeout(() => {
+                document.getElementById('quizLoading').classList.add('hidden');
+                document.getElementById('quizContent').classList.remove('hidden');
+                displayCurrentQuestion();
+                startTimer();
+            }, 500);
+        }
+
+        function displayCurrentQuestion() {
+            if (!currentQuiz || currentQuiz.currentQuestion >= currentQuiz.questions.length) {
+                showResults();
+                return;
+            }
+
+            const question = currentQuiz.questions[currentQuiz.currentQuestion];
+            const questionText = document.getElementById('questionText');
+            const answerOptions = document.getElementById('answerOptions');
+            const questionCounter = document.getElementById('questionCounter');
+            const progressBar = document.getElementById('quizProgressBar');
+
+            // Update question text with acronym expansions
+            let displayText = question.text;
+            questionText.textContent = displayText;
+
+            // Update counter and progress
+            questionCounter.textContent = `${currentQuiz.currentQuestion + 1} of ${currentQuiz.questions.length}`;
+            const progress = ((currentQuiz.currentQuestion + 1) / currentQuiz.questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+
+            // Clear and populate answer options
+            answerOptions.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'answer-option';
+                button.textContent = option;
+                button.onclick = () => selectAnswer(index);
+                
+                // Check if this answer was already selected
+                if (currentQuiz.userAnswers[currentQuiz.currentQuestion] === index) {
+                    button.classList.add('selected');
+                }
+                
+                answerOptions.appendChild(button);
+            });
+
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentQuiz.currentQuestion === 0;
+            document.getElementById('nextBtn').disabled = currentQuiz.userAnswers[currentQuiz.currentQuestion] === null;
+            
+            // Hide explanation area
+            document.getElementById('explanationArea').classList.add('hidden');
+        }
+
+        function selectAnswer(answerIndex) {
+            const question = currentQuiz.questions[currentQuiz.currentQuestion];
+            const options = document.querySelectorAll('.answer-option');
+            
+            // Clear previous selections
+            options.forEach(option => {
+                option.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            // Mark selected answer
+            options[answerIndex].classList.add('selected');
+            
+            // Store answer
+            currentQuiz.userAnswers[currentQuiz.currentQuestion] = answerIndex;
+            
+            // Enable next button
+            document.getElementById('nextBtn').disabled = false;
+            
+            // Show immediate feedback if enabled
+            if (currentQuiz.immediateFeedback) {
+                showAnswerFeedback(answerIndex);
+            }
+        }
+
+        function showAnswerFeedback(selectedIndex) {
+            const question = currentQuiz.questions[currentQuiz.currentQuestion];
+            const options = document.querySelectorAll('.answer-option');
+            const explanationArea = document.getElementById('explanationArea');
+            
+            // Show correct/incorrect styling
+            options.forEach((option, index) => {
+                if (index === question.correctAnswer) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex && index !== question.correctAnswer) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            // Show explanation
+            if (currentQuiz.showExplanations) {
+                let explanation = `<strong>Explanation:</strong><br>`;
+                
+                if (selectedIndex === question.correctAnswer) {
+                    explanation += `✅ ${question.explanation}`;
+                } else {
+                    explanation += `❌ ${question.wrongExplanations[selectedIndex] || 'This answer is incorrect.'}<br><br>`;
+                    explanation += `✅ The correct answer is: ${question.options[question.correctAnswer]}<br>`;
+                    explanation += question.explanation;
+                }
+                
+                // Add acronym expansions if relevant
+                if (Object.keys(question.acronyms).length > 0) {
+                    explanation += '<br><br><strong>Key Terms:</strong><br>';
+                    for (const [acronym, full] of Object.entries(question.acronyms)) {
+                        explanation += `• ${acronym} = ${full}<br>`;
+                    }
+                }
+                
+                explanationArea.innerHTML = explanation;
+                explanationArea.classList.remove('hidden');
+            }
+            
+            // Update progress
+            const correct = selectedIndex === question.correctAnswer;
+            app.updateProgress(correct, question.topic, question.id);
+        }
+
+        function nextQuestion() {
+            if (currentQuiz.currentQuestion < currentQuiz.questions.length - 1) {
+                currentQuiz.currentQuestion++;
+                displayCurrentQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuiz.currentQuestion > 0) {
+                currentQuiz.currentQuestion--;
+                displayCurrentQuestion();
+            }
+        }
+
+        function startTimer() {
+            if (currentQuiz.timeLimit > 0) {
+                const endTime = new Date(currentQuiz.startTime.getTime() + currentQuiz.timeLimit * 60000);
+                
+                quizTimer = setInterval(() => {
+                    const now = new Date();
+                    const timeLeft = endTime - now;
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(quizTimer);
+                        showResults();
+                        return;
+                    }
+                    
+                    const minutes = Math.floor(timeLeft / 60000);
+                    const seconds = Math.floor((timeLeft % 60000) / 1000);
+                    
+                    const timerDisplay = document.getElementById('timerDisplay');
+                    if (timerDisplay) {
+                        timerDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                    }
+                }, 1000);
+            }
+        }
+
+        function showResults() {
+            if (quizTimer) {
+                clearInterval(quizTimer);
+            }
+            
+            // Calculate final score
+            let correct = 0;
+            currentQuiz.questions.forEach((question, index) => {
+                if (currentQuiz.userAnswers[index] === question.correctAnswer) {
+                    correct++;
+                }
+            });
+            
+            const total = currentQuiz.questions.length;
+            const percentage = Math.round((correct / total) * 100);
+            
+            // Update results display
+            document.getElementById('finalScore').textContent = `${percentage}%`;
+            document.getElementById('scoreBreakdown').textContent = `${correct} correct out of ${total}`;
+            
+            // Show topic performance
+            const topicPerformance = document.getElementById('topicPerformance');
+            const topics = {};
+            
+            currentQuiz.questions.forEach((question, index) => {
+                if (!topics[question.topic]) {
+                    topics[question.topic] = { correct: 0, total: 0 };
+                }
+                topics[question.topic].total++;
+                if (currentQuiz.userAnswers[index] === question.correctAnswer) {
+                    topics[question.topic].correct++;
+                }
+            });
+            
+            let topicHTML = '';
+            for (const [topic, stats] of Object.entries(topics)) {
+                const topicPercentage = Math.round((stats.correct / stats.total) * 100);
+                topicHTML += `
+                    <div class="card mb-2">
+                        <div class="card-subtitle">${topic}</div>
+                        <div class="text-muted">${stats.correct}/${stats.total} (${topicPercentage}%)</div>
+                    </div>
+                `;
+            }
+            topicPerformance.innerHTML = topicHTML || '<p class="text-muted">No topic data available</p>';
+            
+            // Show/hide review button
+            const reviewBtn = document.getElementById('reviewBtn');
+            const wrongCount = total - correct;
+            reviewBtn.style.display = wrongCount > 0 ? 'inline-block' : 'none';
+            
+            app.switchTab('results');
+        }
+
+        function retakeQuiz() {
+            // Restart the same quiz
+            currentQuiz.currentQuestion = 0;
+            currentQuiz.userAnswers = new Array(currentQuiz.questions.length).fill(null);
+            currentQuiz.score = 0;
+            currentQuiz.startTime = new Date();
+            
+            app.switchTab('quiz');
+            displayCurrentQuestion();
+            startTimer();
+        }
+
+        function reviewWrongAnswers() {
+            // This would be implemented to show only wrong answers
+            alert('Review wrong answers feature coming soon!');
+        }
+
+        // PHASE 4: Ports Reference
+        
+        function populatePortsTable() {
+            const tbody = document.getElementById('portsTableBody');
+            tbody.innerHTML = '';
+            
+            app.ports.forEach(port => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${port.number}</td>
+                    <td>${port.protocol}</td>
+                    <td>${port.service}</td>
+                    <td>${port.description}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function filterPorts() {
+            const searchTerm = document.getElementById('portSearch').value.toLowerCase();
+            const rows = document.querySelectorAll('#portsTableBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        }
+
+        // PHASE 5: Settings Management
+        
+        function loadSettingsUI() {
+            document.getElementById('soundEnabled').checked = app.settings.soundEnabled;
+            document.getElementById('vibrationEnabled').checked = app.settings.vibrationEnabled;
+            document.getElementById('showExplanations').checked = app.settings.showExplanations;
+            document.getElementById('immediateFeedback').checked = app.settings.immediateFeedback;
+            document.getElementById('shuffleAnswers').checked = app.settings.shuffleAnswers;
+        }
+
+        function saveSettingsFromUI() {
+            app.settings.soundEnabled = document.getElementById('soundEnabled').checked;
+            app.settings.vibrationEnabled = document.getElementById('vibrationEnabled').checked;
+            app.settings.showExplanations = document.getElementById('showExplanations').checked;
+            app.settings.immediateFeedback = document.getElementById('immediateFeedback').checked;
+            app.settings.shuffleAnswers = document.getElementById('shuffleAnswers').checked;
+            
+            app.saveSettings();
+        }
+
+        function exportProgress() {
+            const data = {
+                progress: app.progress,
+                settings: app.settings,
+                exportDate: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'comptia-progress.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
+                localStorage.removeItem('comptia_progress');
+                app.progress = app.loadProgress();
+                app.updateDashboard();
+                alert('Progress has been reset.');
+            }
+        }
+
+        // Utility Functions
+        const Utils = {
+            formatDuration(minutes) {
+                if (minutes < 60) {
+                    return `${minutes}m`;
+                }
+                const hours = Math.floor(minutes / 60);
+                const remainingMinutes = minutes % 60;
+                return remainingMinutes > 0 ? `${hours}h ${remainingMinutes}m` : `${hours}h`;
+            },
+
+            calculateAccuracy(correct, total) {
+                if (total === 0) return 0;
+                return Math.round((correct / total) * 100);
+            },
+
+            shuffleArray(array) {
+                const shuffled = [...array];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                return shuffled;
+            },
+
+            showError(message) {
+                console.error(message);
+                alert(`Error: ${message}`);
+            }
+        };
+
+        // Event Listeners and Initialization
         document.addEventListener('DOMContentLoaded', function() {
-            // Add click handlers to navigation tabs
+            // Tab navigation
             document.querySelectorAll('.nav-tab').forEach(tab => {
                 tab.addEventListener('click', function() {
                     const tabName = this.getAttribute('data-tab');
@@ -645,7 +1796,17 @@
                 });
             });
 
-            // Add keyboard navigation support
+            // Settings changes
+            document.querySelectorAll('#settings input').forEach(input => {
+                input.addEventListener('change', saveSettingsFromUI);
+            });
+
+            // Initialize UI
+            populatePortsTable();
+            loadSettingsUI();
+            app.updateDashboard();
+
+            // Keyboard shortcuts
             document.addEventListener('keydown', function(event) {
                 if (event.ctrlKey || event.metaKey) {
                     switch(event.key) {
@@ -673,65 +1834,28 @@
                 }
             });
 
-            // Initialize placeholder content
-            console.log('CompTIA A+ Core 1 Study App initialized');
-            console.log('Current tab:', app.currentTab);
-            console.log('Settings loaded:', app.settings);
-            console.log('Progress loaded:', app.progress);
+            console.log('CompTIA A+ Core 1 Study App - Phase 2 Complete');
+            console.log('Data loaded:', {
+                questions: Object.keys(app.questions).length + ' modules',
+                ports: app.ports.length,
+                acronyms: Object.keys(app.acronyms).length
+            });
         });
 
-        // Utility Functions
-        const Utils = {
-            // Format time duration
-            formatDuration(minutes) {
-                if (minutes < 60) {
-                    return `${minutes}m`;
-                }
-                const hours = Math.floor(minutes / 60);
-                const remainingMinutes = minutes % 60;
-                return remainingMinutes > 0 ? `${hours}h ${remainingMinutes}m` : `${hours}h`;
-            },
-
-            // Calculate accuracy percentage
-            calculateAccuracy(correct, total) {
-                if (total === 0) return 0;
-                return Math.round((correct / total) * 100);
-            },
-
-            // Shuffle array (Fisher-Yates algorithm)
-            shuffleArray(array) {
-                const shuffled = [...array];
-                for (let i = shuffled.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-                }
-                return shuffled;
-            },
-
-            // Show user-friendly error message
-            showError(message) {
-                console.error(message);
-                // In a real implementation, this would show a toast notification
-                alert(`Error: ${message}`);
-            },
-
-            // Validate data against schema
-            validateData(data, schema) {
-                // Basic validation - check if all required fields exist
-                for (const [key, type] of Object.entries(schema)) {
-                    if (!(key in data)) {
-                        return { valid: false, message: `Missing required field: ${key}` };
-                    }
-                    // Note: This is a simplified validation. In production, you'd want more thorough type checking.
-                }
-                return { valid: true };
-            }
-        };
-
-        // Export for use in other phases
-        window.AppState = AppState;
-        window.Utils = Utils;
+        // Export for global access
         window.app = app;
+        window.startModuleQuiz = startModuleQuiz;
+        window.startPracticeExam = startPracticeExam;
+        window.startPortQuiz = startPortQuiz;
+        window.selectAnswer = selectAnswer;
+        window.nextQuestion = nextQuestion;
+        window.previousQuestion = previousQuestion;
+        window.retakeQuiz = retakeQuiz;
+        window.reviewWrongAnswers = reviewWrongAnswers;
+        window.exportProgress = exportProgress;
+        window.resetProgress = resetProgress;
+        window.filterPorts = filterPorts;
+        window.Utils = Utils;
     </script>
 </body>
 </html>
